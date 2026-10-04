@@ -2,24 +2,60 @@
 
 %d%.hooks_intro
 
+> %d%.hooks_no_react_note
+
 ## %d%.use_hook_title
 
 %d%.use_hook_desc
 
 ### %d%.basic_usage_title
 
-```typescript
+```tsx
 import { use } from '@carats/hooks';
 
-function MyComponent() {
-    const counter = use(0);
-    
+export default function Counter(props: { start?: number }) {
+    const count = use(props.start ?? 0);
+
+    // get() is a plain read, safe on the server and in the browser
+    return <p class="counter">{count.get()}</p>;
+}
+```
+
+%d%.use_manual_dom_note
+
+```tsx
+import { use, afterMount } from '@carats/hooks';
+
+export default function Counter() {
+    const count = use(0);
+
+    afterMount(() => {
+        const inc = document.getElementById('inc');
+        const dec = document.getElementById('dec');
+        const label = document.getElementById('count');
+
+        const unsub = count.subscribe((value) => {
+            if (label) label.textContent = String(value);
+        });
+
+        const increment = () => count.set((n) => n + 1);
+        const decrement = () => count.set((n) => n - 1);
+
+        inc?.addEventListener('click', increment);
+        dec?.addEventListener('click', decrement);
+
+        return () => {
+            unsub();
+            inc?.removeEventListener('click', increment);
+            dec?.removeEventListener('click', decrement);
+        };
+    });
+
     return (
-        <div>
-            <p>Count: {counter.get()}</p>
-            <button onclick={() => counter.set(counter.get() + 1)}>
-                Increment
-            </button>
+        <div class="counter">
+            <p id="count">{count.get()}</p>
+            <button id="inc">+</button>
+            <button id="dec">-</button>
         </div>
     );
 }
@@ -27,80 +63,101 @@ function MyComponent() {
 
 ### %d%.state_interface_title
 
+%d%.use_interface
+
 ```typescript
 type Getter<T> = () => T;
 type Factory<T> = (currentValue: T) => T;
 type Setter<T> = {
-    (fn: Factory<T>): void;
-    (value: T): void;
+    (fn: Factory<T>): T;
+    (value: T): T;
 };
 type Subscriber<T> = (value: T) => void;
-type Subscribe<T> = (subsriber: Subscriber<T>) => () => void;
+type Subscribe<T> = (subscriber: Subscriber<T>) => () => void;
 type State<T> = {
     get: Getter<T>;
     set: Setter<T>;
     subscribe: Subscribe<T>;
 };
+declare function use<T>(): State<T>;
+declare function use<T>(initialState: T): State<T>;
 ```
+
+%d%.set_returns_note
+
+`use` is also callable outside a component, which is the idiomatic way to share a single piece of state between pages.
 
 ### %d%.subscribe_method_title
 
-```typescript
-function MyComponent() {
-    const counter = use(0);
-    
-    // Subscribe to state changes
-    counter.subscribe((value) => {
-        console.log('Count changed to:', value);
+```tsx
+import { use } from '@carats/hooks';
+
+const state = use(0);
+
+// Returns the unsubscribe function
+const unsub = state.subscribe((value) => {
+    console.log('Count changed to:', value);
+});
+```
+
+%d%.subscribe_note
+
+%d%.subscribe_owns_dom_note
+
+```tsx
+// Wrong: two places write to the DOM, so they can disagree
+const onClick = () => {
+    count.set((n) => n + 1);
+    if (label) label.textContent = String(count.get());
+};
+
+// Right: the handler only changes state, the subscriber only writes the DOM
+const unsub =  count.subscribe((value) => {
+    if (label) label.textContent = String(value);
+});
+const onClick = () => count.set((n) => n + 1);
+```
+
+## %d%.aftermount_title
+
+%d%.aftermount_desc
+
+```tsx
+import { afterMount } from '@carats/hooks';
+
+export default function MyComponent() {
+    afterMount(() => {
+        const button = document.getElementById('my-button');
+        const onClick = () => console.log('Button clicked!');
+        button?.addEventListener('click', onClick);
+
+        return () => button?.removeEventListener('click', onClick);
     });
-    
-    return <div>Count: {counter.get()}</div>;
+
+    return <button id="my-button">Click me</button>;
 }
 ```
 
-## %d%.hydrate_title
+Keep a reference to the exact handler you registered. Passing a fresh arrow function to `removeEventListener` creates a new function identity, so the listener is never actually removed.
 
-%d%.hydrate_desc
+## %d%.beforemount_title
 
-```tsx
-import { hydrate } from '@carats/hooks';
-
-function MyComponent() {
-    hydrate(() => {
-        const button = document.querySelector('.my-button');
-        button?.addEventListener('click', () => {
-            console.log('Button clicked!');
-        });
-        
-        return () => {
-            // Cleanup function
-            button?.removeEventListener('click', () => {});
-        };
-    });
-    
-    return <button class="my-button">Click me</button>;
-}
-```
-
-## %d%.onmount_title
-
-%d%.onmount_desc
+%d%.beforemount_desc
 
 ```tsx
-import { onMount } from '@carats/hooks';
+import { beforeMount } from '@carats/hooks';
 
-function MyComponent() {
-    onMount(() => {
-        console.log('Component mounted!');
-        
-        return () => {
-            console.log('Cleanup on unmount');
-        };
+export default function MyComponent() {
+    beforeMount(() => {
+        const timer = setInterval(() => console.log('tick'), 1000);
+        return () => clearInterval(timer);
     });
-    
+
     return <div>My Component</div>;
 }
 ```
+
+%d%.choosing_mount_hook_note
 
 ## %d%.clear_hydrations_title
 
@@ -109,14 +166,14 @@ function MyComponent() {
 ```typescript
 import { clearHydrations } from '@carats/hooks';
 
-// Clear all hydration callbacks
+// Runs every registered clear callback and empties the registry
 await clearHydrations();
 ```
 
 ## %d%.complete_example_title
 
 ```tsx
-import { use, hydrate, onMount } from '@carats/hooks';
+import { use, beforeMount, afterMount } from '@carats/hooks';
 import './counter.sass';
 
 interface CounterProps {
@@ -125,39 +182,44 @@ interface CounterProps {
 
 export default function Counter(props: CounterProps) {
     const count = use(props.initialValue ?? 0);
-    
-    onMount(() => {
-        console.log('Counter mounted with initial value:', count.get());
+
+    // beforeMount runs immediately and does not need this component's markup
+    beforeMount(() => {
+        const onKey = (e: KeyboardEvent) => {
+            if (e.key === 'ArrowUp') count.set((n) => n + 1);
+            if (e.key === 'ArrowDown') count.set((n) => n - 1);
+        };
+        document.addEventListener('keydown', onKey);
+        return () => document.removeEventListener('keydown', onKey);
     });
-    
-    const handleIncrement = () => {
-        count.set(prev => prev + 1);
-    };
-    
-    const handleDecrement = () => {
-        count.set(prev => prev - 1);
-    };
-    
-    hydrate(() => {
-        const buttons = document.querySelectorAll('.counter-btn');
-        buttons.forEach(btn => {
-            btn.addEventListener('mouseenter', () => {
-                btn.classList.add('hovered');
-            });
+
+    afterMount(() => {
+        const label = document.getElementById('count');
+        const inc = document.getElementById('inc');
+        const dec = document.getElementById('dec');
+
+        const unsub = count.subscribe((value) => {
+            if (label) label.textContent = String(value);
         });
-        
+
+        const increment = () => count.set((n) => n + 1);
+        const decrement = () => count.set((n) => n - 1);
+
+        inc?.addEventListener('click', increment);
+        dec?.addEventListener('click', decrement);
+
         return () => {
-            buttons.forEach(btn => {
-                btn.classList.remove('hovered');
-            });
+            unsub();
+            inc?.removeEventListener('click', increment);
+            dec?.removeEventListener('click', decrement);
         };
     });
-    
+
     return (
         <div class="counter">
-            <h2>Counter: {count.get()}</h2>
-            <button class="counter-btn" onclick={handleIncrement}>+</button>
-            <button class="counter-btn" onclick={handleDecrement}>-</button>
+            <h2>Counter: <span id="count">{count.get()}</span></h2>
+            <button id="inc" type="button">+</button>
+            <button id="dec" type="button">-</button>
         </div>
     );
 }
@@ -170,8 +232,9 @@ type MaybePromise<T> = T | Promise<T>;
 type ClearCallback = () => MaybePromise<void>;
 type HydrationCallback = () => MaybePromise<ClearCallback | void>;
 
-declare function hydrate(callback: HydrationCallback): void;
-declare function onMount(callback: HydrationCallback): void;
+declare function afterMount(callback: HydrationCallback): void;
+declare function beforeMount(callback: HydrationCallback): void;
+declare function clearHydrations(): Promise<void>;
 declare function use<T>(): State<T>;
 declare function use<T>(initialState: T): State<T>;
 ```

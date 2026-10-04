@@ -1,0 +1,38 @@
+/* Carats documentation theme — colour tokens.
+   Mirrors the palette of the carats.dev landing page so the docs read as the
+   same product. Mapped onto the variable names instant-docs' own stylesheets
+   (base.css / sidebar.css) already consume, so nothing else has to change. */
+:root {
+    /* Text */
+    --color: #e8e4f0;
+    --color-text-heading: #e8e4f0;
+    --color-text-subheading: #a8d8ff;
+    --color-text-muted: #6b6880;
+
+    /* Surfaces */
+    --bg-color: #07070a;
+    --color-menu-bg: #0e0e14;
+    --surface: #0e0e14;
+
+    /* Lines. The landing page uses a single hairline weight everywhere and no
+       shadows at all, so --color-border-default stays a hairline. */
+    --color-border-default: rgba(255, 255, 255, .07);
+    --color-border-strong: rgba(255, 255, 255, .14);
+
+    /* Accents: lavender is the primary UI accent, gold is reserved for
+       emphasis (active nav item, links on hover, the diamond mark). */
+    --accent: 200, 184, 255;
+    --inverse-accent: 240, 216, 154;
+    --gem: 168, 216, 255;
+    --gold: #f0d89a;
+    --color-text-on-accent: #07070a;
+
+    /* Menu states */
+    --color-menu-text: #e8e4f0;
+    --color-menu-link-hover-bg: transparent;
+    --color-menu-item-hover-bg: rgba(200, 184, 255, .06);
+    --color-menu-item-hover-text: #e8e4f0;
+    --color-menu-selected-bg: rgba(240, 216, 154, .08);
+
+    --overlay-color: 7, 7, 10;
+}

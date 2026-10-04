@@ -25,7 +25,7 @@ export default function Layout(props: JSX.ComponentProps) {
 ```tsx
 import './home.sass';
 
-export default function Home(props: JSX.ComponentProps) {
+export default function Home() {
     return (
         <div class="home">
             <h1>Welcome to Carats</h1>
@@ -35,17 +35,19 @@ export default function Home(props: JSX.ComponentProps) {
 }
 ```
 
+The SASS file is imported for its side effect, which is what attaches the stylesheet to the page. A component may import anything Vite understands: SASS, CSS, JSON or images.
+
 ## %d%.component_props_title
 
-%d%.props_desc
+%d%.component_props_desc
 
 ```tsx
 export default function Card(props: { title: string; children?: JSX.Element }) {
     return (
-        <div class="card">
+        <article class="card">
             <h2>{props.title}</h2>
-            <div>{props.children}</div>
-        </div>
+            {props.children}
+        </article>
     );
 }
 
@@ -55,11 +57,36 @@ export default function Card(props: { title: string; children?: JSX.Element }) {
 </Card>
 ```
 
-## %d%.component_head_title
+## %d%.component_default_props_title
 
-%d%.head_desc
+%d%.component_default_props_desc
 
 ```tsx
+import { CaratsComponent } from '@carats/render';
+
+const Profile: CaratsComponent<User> = function (user) {
+    return <h1>{user.name}</h1>;
+};
+
+Profile.defaultProps = {
+    id: '0',
+    name: 'Guest',
+    username: 'guest',
+    email: '',
+    phone: '',
+    website: ''
+};
+
+export default Profile;
+```
+
+## %d%.component_head_title
+
+%d%.component_head_desc
+
+```tsx
+import { CaratsComponent } from '@carats/render';
+
 export default function Home(this: CaratsComponent) {
     this.head = <>
         <title>Home Page</title>
@@ -69,9 +96,13 @@ export default function Home(this: CaratsComponent) {
 }
 ```
 
+> %d%.component_head_note
+
+The `CaratsComponent` type must be imported; it is exported by `@carats/render`. The `this` parameter is only a type annotation and is erased at compile time.
+
 ## %d%.component_attributes_title
 
-%d%.attributes_desc
+%d%.component_attributes_desc
 
 ### %d%.incorrect_example
 
@@ -79,22 +110,28 @@ export default function Home(this: CaratsComponent) {
 <button onclick={() => handleClick()}>Click me</button>
 ```
 
+The function is not a valid HTML attribute value, so it ends up in the markup as garbage and nothing is ever called.
+
 ### %d%.correct_example
 
 ```tsx
-import { hydrate } from '@carats/hooks';
+import { afterMount } from '@carats/hooks';
 
 export default function MyButton() {
-    hydrate(() => {
-        const button = document.querySelector('button');
-        button?.addEventListener('click', () => {
-            console.log('Clicked!');
-        });
+    let handler: (() => void) | undefined;
+
+    afterMount(() => {
+        const button = document.getElementById('my-button');
+        handler = () => console.log('Clicked!');
+        button?.addEventListener('click', handler);
+        return () => button?.removeEventListener('click', handler!);
     });
-    
-    return <button>Click me</button>;
+
+    return <button id="my-button">Click me</button>;
 }
 ```
+
+The same rule applies to `onsubmit`, `oninput`, `onchange` and every other event attribute. Give the element an `id` and look it up inside a hook callback.
 
 ## %d%.burnish_title
 
@@ -103,7 +140,9 @@ export default function MyButton() {
 ### %d%.burnish_with_this
 
 ```tsx
-export default Burnish<User>(function(user) {
+import { Burnish } from '@carats/render';
+
+export default Burnish<User>(function (user) {
     this.head = <title>{user.name}</title>;
     return <h1>Hello {user.name}</h1>;
 });
@@ -111,21 +150,32 @@ export default Burnish<User>(function(user) {
 
 ### %d%.burnish_with_recast
 
+%d%.burnish_recast
+
 ```tsx
-export default Burnish<User>((user) => <h1>{user.name}</h1>, { recast: true });
+export default Burnish<User>((user) => <h1>Hello {user.name}</h1>, { recast: true });
 ```
 
+A burnished component still accepts props like any other component, which is what makes it testable without a server.
+
 ## %d%.client_entrypoint_title
+
+%d%.client_entrypoint_desc
 
 ```typescript
 import { mount, clientRender } from '@carats/csr';
 import facets from './facets.cara';
+import './base.sass';
 
 mount(facets);
 clientRender();
 ```
 
+The global stylesheet is imported here rather than in a page, because it holds the design tokens and the base resets that every page relies on.
+
 ## %d%.vite_config_title
+
+%d%.vite_config_desc
 
 ```typescript
 import { defineConfig } from 'vite'

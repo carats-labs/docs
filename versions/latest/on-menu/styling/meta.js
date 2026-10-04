@@ -5,5 +5,5 @@ export default metadata({
     description: '%d%.styling_intro',
     keywords: ['carats', 'styling', 'sass', 'css', 'design tokens'],
     menuOrder: 6,
-    generateTOC: true
+    generateTOC: false
 });

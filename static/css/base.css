@@ -104,9 +104,23 @@ main {
 }
 
 main>:first-child {
-  /* Targets the div with class="content" */
   max-width: 800px;
   margin: 0 auto;
+}
+
+/*
+The page body is injected as <div class="content"> inside <article>.
+The full-text search index is built from `.content` text, and `#toc` is
+filled in by the `toc` backend plugin, so both must stay outside/inside
+these wrappers respectively.
+*/
+article .content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+#toc:empty {
+  display: none;
 }
 
 /* Table of Contents improvements */

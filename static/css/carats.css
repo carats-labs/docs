@@ -1,0 +1,528 @@
+/* Carats documentation theme — components.
+   Loaded last, so everything here overrides the instant-docs defaults.
+   The reference is the carats.dev landing page: Cormorant Garamond for display,
+   DM Mono for chrome and code, a single hairline weight, no shadows, and
+   motion kept under 0.3s. Prose stays in a system sans because the landing
+   page has almost no body copy and DM Mono is fatiguing across long articles. */
+
+:root {
+    --font-display: 'Cormorant Garamond', serif;
+    --font-mono: 'DM Mono', ui-monospace, monospace;
+    --font-prose: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+    --measure: 760px;
+}
+
+html {
+    scroll-behavior: smooth;
+    /* Tells the UA to render form controls and scrollbars dark. Without it the
+       version select keeps its light native chrome. */
+    color-scheme: dark;
+}
+
+/* Film grain, the same overlay the landing page uses. Sits above the content
+   but never intercepts clicks. */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 900;
+    pointer-events: none;
+    opacity: .03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+}
+
+body {
+    font-family: var(--font-prose);
+    color: var(--color);
+    background: var(--bg-color);
+    line-height: 1.75;
+}
+
+main {
+    min-width: 0;
+}
+
+main>article {
+    max-width: var(--measure);
+    padding: 3.5rem 2.5rem 4rem;
+}
+
+/* ---------- display type ---------- */
+
+.content h1,
+#table-of-contents h2 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -.01em;
+    color: var(--color-text-heading);
+}
+
+.content h1 {
+    font-size: clamp(2.5rem, 5vw, 3.25rem);
+    line-height: 1.05;
+    margin: 0 0 1.5rem;
+}
+
+.content h2 {
+    font-family: var(--font-display);
+    font-size: 1.875rem;
+    font-weight: 400;
+    line-height: 1.2;
+    margin: 3rem 0 1rem;
+    color: var(--color-text-heading);
+}
+
+.content h3 {
+    font-family: var(--font-mono);
+    font-size: .8125rem;
+    font-weight: 400;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin: 2.25rem 0 .75rem;
+}
+
+.content h4 {
+    font-family: var(--font-mono);
+    font-size: .75rem;
+    font-weight: 400;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin: 1.75rem 0 .5rem;
+}
+
+/* A hairline under every section heading, echoing the landing page's rules. */
+.content h2::after {
+    content: '';
+    display: block;
+    width: 48px;
+    height: 1px;
+    margin-top: .9rem;
+    background: var(--color-border-strong);
+}
+
+.content p,
+.content li {
+    color: var(--color);
+    opacity: .82;
+}
+
+.content strong {
+    color: #f5e6c8;
+    font-weight: 600;
+}
+
+.content a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(var(--accent), .28);
+    transition: color .2s, border-color .2s;
+}
+
+.content a:hover {
+    color: var(--gold);
+    border-bottom-color: rgba(var(--gold), .5);
+}
+
+.content ul,
+.content ol {
+    padding-left: 1.35rem;
+}
+
+.content li::marker {
+    color: var(--color-text-muted);
+}
+
+/* ---------- code ---------- */
+
+/* The default theme makes every `code` a padded block, which wrecks inline
+   code. Inline code is inline; only `pre` code is a block. */
+.content code {
+    display: inline;
+    padding: .12em .38em;
+    border: 1px solid var(--color-border-default);
+    border-radius: 3px;
+    background: rgba(var(--gem), .07);
+    color: var(--gem);
+    font-family: var(--font-mono);
+    font-size: .84em;
+}
+
+.content pre {
+    border: 1px solid var(--color-border-default);
+    border-radius: 0;
+    background: var(--surface);
+}
+
+.content pre code {
+    display: block;
+    padding: 1.1rem 1.35rem;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: var(--color);
+    font-size: .8125rem;
+    line-height: 1.7;
+    overflow-x: auto;
+}
+
+/* ---------- notes, tables ---------- */
+
+.content blockquote {
+    margin: 1.5rem 0;
+    padding: .1rem 0 .1rem 1.1rem;
+    border: 0;
+    border-left: 1px solid var(--gold);
+    color: var(--color-text-muted);
+}
+
+.content blockquote p {
+    color: var(--color-text-muted);
+    opacity: 1;
+}
+
+.content table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .875rem;
+}
+
+.content th,
+.content td {
+    padding: .7rem .85rem;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid var(--color-border-default);
+}
+
+.content th {
+    font-family: var(--font-mono);
+    font-size: .6875rem;
+    font-weight: 400;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+}
+
+.content tbody tr:hover {
+    background: rgba(255, 255, 255, .015);
+}
+
+/* When a table ends the page its last-row rule lands about 80px above the
+   footer's own hairline, and the pair reads as one doubled divider. The
+   footer's rule becomes the closer instead. Only applies to a trailing table,
+   so tables followed by prose keep their closing border. */
+.content>table:last-child tbody tr:last-child td,
+.content>table:last-child tr:last-child td {
+    border-bottom: 0;
+}
+
+/* ---------- table of contents ---------- */
+
+#table-of-contents {
+    margin: 0 0 3rem;
+    padding: 1.5rem 1.6rem;
+    border: 1px solid var(--color-border-default);
+    background: var(--surface);
+}
+
+#table-of-contents h2 {
+    margin: 0 0 1rem;
+    font-size: 1rem;
+    font-family: var(--font-mono);
+    font-weight: 400;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--gold);
+}
+
+#table-of-contents ol,
+#table-of-contents ul {
+    padding-left: 1.15rem;
+}
+
+#table-of-contents a {
+    display: block;
+    padding: .3rem 0;
+    color: var(--color-text-muted);
+    font-size: .875rem;
+    text-decoration: none;
+    border: 0;
+    transition: color .2s, padding-left .2s;
+}
+
+#table-of-contents a:hover {
+    color: var(--gold);
+    padding-left: .35rem;
+}
+
+/* ---------- search ---------- */
+
+#search-bar {
+    width: 100%;
+    padding: .8rem 1rem;
+    border: 1px solid var(--color-border-default);
+    border-radius: 0;
+    background: var(--surface);
+    color: var(--color);
+    font-family: var(--font-mono);
+    font-size: .8125rem;
+    letter-spacing: .04em;
+    transition: border-color .2s;
+}
+
+#search-bar::placeholder {
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: .18em;
+    font-size: .6875rem;
+}
+
+#search-bar:focus {
+    outline: none;
+    border-color: rgba(240, 216, 154, .35);
+}
+
+#search-result-container ol.search-result-list li a {
+    text-decoration: none;
+}
+
+#search-result-container h4 {
+    color: var(--gold);
+    font-family: var(--font-mono);
+    font-size: .75rem;
+    font-weight: 400;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+}
+
+#search-result-container p {
+    color: var(--color-text-muted);
+    font-size: .8125rem;
+}
+
+/* ---------- layout ---------- */
+
+/* The footer must sit at the bottom of the viewport on a page shorter than
+   the viewport. instant-docs sets `min-height: 100svh` on #layout and
+   `flex-grow: 1` on `main`, but #layout is a block box, so flex-grow never
+   applied and the unclaimed height was left below the footer as dead space —
+   visible only on the short home page. Making the layout a flex column
+   activates the existing rule. #menu is position: fixed, so it is out of flow
+   and unaffected. */
+#layout {
+    display: flex;
+    flex-direction: column;
+}
+
+/* ---------- menu ---------- */
+
+#menu {
+    /* width: 350px; */
+    border-right: 1px solid var(--color-border-default);
+}
+
+#menu nav ul {
+    border-top: 1px solid var(--color-border-default);
+    padding: .5rem 0 1.5rem;
+}
+
+#menu nav li a {
+    display: block;
+    padding: .5rem 1.4rem;
+    color: var(--color-text-muted);
+    font-family: var(--font-mono);
+    font-size: .75rem;
+    letter-spacing: .04em;
+    transition: color .2s, background .2s;
+}
+
+#menu nav li:hover a,
+#menu nav li:has(:focus-visible) a {
+    color: var(--color);
+    background: var(--color-menu-item-hover-bg);
+}
+
+#menu nav li[aria-current='page'] a {
+    color: var(--gold);
+    background: var(--color-menu-selected-bg);
+    box-shadow: inset 1px 0 0 var(--gold);
+    font-weight: 400;
+}
+
+#menu nav ul li li a {
+    padding-left: 2.4rem;
+}
+
+.expand-button {
+    color: var(--color-text-muted);
+}
+
+.chevron {
+    opacity: .6;
+}
+
+/* ---------- logo ---------- */
+
+#logo-wrapper {
+    gap: .75rem;
+    padding: 1.15rem 1.4rem 1.1rem;
+    border-bottom: 1px solid var(--color-border-default);
+}
+
+#logo {
+    height: 1.5lh;
+    width: auto;
+}
+
+.brand {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+}
+
+.brand-name {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    letter-spacing: .04em;
+    color: var(--color);
+}
+
+.brand-sub {
+    font-family: var(--font-mono);
+    font-size: .5625rem;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+}
+
+/* instant-docs wraps the version select in `.dropdown` and paints that wrapper
+   as a filled accent pill with a chevron mask. On this theme it is a quiet
+   hairline control instead, so the wrapper is neutralised and the select
+   inside it carries the styling. */
+#logo-wrapper .dropdown {
+    background: transparent;
+    border: 1px solid var(--color-border-default);
+    border-radius: 0;
+    color: inherit;
+    font-size: inherit;
+    transition: border-color .2s;
+}
+
+#logo-wrapper .dropdown:hover {
+    background: transparent;
+    border-color: rgba(240, 216, 154, .3);
+}
+
+#logo-wrapper .dropdown::after {
+    content: '';
+    position: absolute;
+    pointer-events: none;
+    right: .6em;
+    top: 50%;
+    width: .35em;
+    height: .35em;
+    transform: translateY(-50%) rotate(45deg);
+    border-right: 1px solid currentColor;
+    border-bottom: 1px solid currentColor;
+    background: none;
+    mask: none;
+    -webkit-mask: none;
+    opacity: .5;
+}
+
+#logo-wrapper .dropdown:has(select:focus-visible) {
+    border-color: rgba(240, 216, 154, .45);
+}
+
+#logo-wrapper .dropdown select {
+    appearance: none;
+    -webkit-appearance: none;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    height: auto;
+    padding: .35rem 1.6rem .35rem .85rem;
+    color: var(--color-text-muted);
+    font-family: var(--font-mono);
+    font-size: .625rem;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+#logo-wrapper .dropdown select:hover {
+    color: var(--gold);
+}
+
+#logo-wrapper .dropdown select option {
+    background: var(--surface);
+    color: var(--color);
+}
+
+/* ---------- footer ---------- */
+
+/* instant-docs gives the footer a fixed `height: 200px` and a hardcoded
+   #121212 background. With only a short line of text in it, the fixed height
+   left ~130px of empty box below the text, so the line floated well above the
+   bottom edge, and the background never matched the page. The height is
+   dropped in favour of padding, and the mark and the appended year sit on one
+   hairline row, the way the landing page's footer rule does. */
+footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    height: auto;
+    padding: 1.4rem 2.5rem;
+    background: var(--bg-color);
+    border-top: 1px solid var(--color-border-default);
+}
+
+footer,
+footer * {
+    font-family: var(--font-mono);
+    font-size: .625rem;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+}
+
+.footer-mark {
+    color: var(--color-text-muted);
+}
+
+a#menuLink {
+    /* instant-docs paints the mobile menu button a solid accent block. On this
+       theme it is a hairline control that opens up to gold on hover. */
+    background: var(--surface);
+    border: 1px solid var(--color-border-default);
+    color: var(--gold);
+    transition: border-color .2s, background .2s;
+}
+
+a#menuLink:hover,
+a#menuLink[data-active='true'] {
+    /* The button keeps its dark surface in every state. Filling it with the
+       near-white body colour put the near-white bars on a near-white plate,
+       which dropped the contrast to 1:1 and made the control disappear exactly
+       when the menu was open. Emphasis comes from the border and the bars. */
+    background: rgba(240, 216, 154, .08);
+    border-color: rgba(240, 216, 154, .5);
+}
+
+a#menuLink span,
+a#menuLink span::before,
+a#menuLink span::after {
+    /* instant-docs paints the bars with --color-text-on-accent, which is the
+       near-black meant to sit on a filled accent button. The button is now a
+       dark surface, so the bars take the gold directly. */
+    background-color: var(--gold);
+    transition: background .2s, box-shadow .2s;
+}
+
+a#menuLink:hover span,
+a#menuLink[data-active='true'] span {
+    box-shadow: 0 0 10px rgba(240, 216, 154, .45);
+}

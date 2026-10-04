@@ -1,54 +1,109 @@
-# %d%.installation_title
+# %d%.getting_started_title
 
-%d%.intro_paragraph
+%d%.getting_started_intro
 
-## %d%.installation_requirements
+## %d%.requirements_title
 
-**%d%.installation_requirements_content**
+%d%.requirements_content
 
-## %d%.installation_steps
+## %d%.quickstart_title
 
-### %d%.installation_step1
+%d%.quickstart_desc
+
+### %d%.quickstart_create
 
 ```bash
-mkdir my-carats-app
+bun create carats my-carats-app
 cd my-carats-app
 ```
 
-### %d%.installation_step2
+`bun create carats` resolves the published `create-carats` package and runs its `create-carats` binary, which writes a complete Carats project into the directory you name. Pass no directory to scaffold into the current one.
+
+### %d%.quickstart_run
 
 ```bash
-bun init -y
+bun install
+bun run dev
 ```
 
-### %d%.installation_step3
+The server listens on `http://localhost:5173`. The generated project ships with a dashboard, a market, a portfolio, a trade page, a shared layout, a not-found page and an error page, so every feature described in these docs is already wired up and can be read as working code.
+
+<!-- ### %d%.quickstart_clone
+
+The generator is the recommended path, but the same project is published as a template and can be cloned directly:
 
 ```bash
-bun add @carats/core @carats/render @carats/hooks @carats/ssr @carats/csr @carats/url
-bun add -d jjsx vite sass typescript @types/node
-```
+npx degit ufukbakan/vite-jjsx-ssr my-carats-app
+cd my-carats-app
+``` -->
 
-### %d%.installation_step4
+## %d%.manual_setup_title
 
-%d%.folder_structure_text
+%d%.manual_setup_desc
+
+### %d%.folder_structure_title
+
+%d%.folder_structure_desc
 
 ```
 src/
 ├── app.ts
+├── vite-env.d.ts
+├── dto/
+│   ├── user.d.ts
+│   └── trade-data.d.ts
 ├── client/
-│   ├── entrypoint.ts
-│   ├── facets.cara.ts
 │   ├── index.html
-│   ├── vite-env.d.ts
-│   └── base.sass
+│   ├── entrypoint.ts
+│   ├── facets.tsx
+│   ├── base.sass
+│   ├── components/
+│   │   ├── SearchInput.tsx
+│   │   └── search-bar.sass
+│   └── pages/
+│       ├── _layout/index.tsx
+│       ├── _error/index.tsx
+│       ├── _not_found/index.tsx
+│       ├── home/index.tsx
+│       ├── market/index.tsx
+│       ├── profile/index.tsx
+│       └── trade/index.tsx
 └── server/
     ├── entrypoint.ts
-    └── culets/
+    └── culets.ts
+public/
+vite.config.client.ts
+vite.config.server.ts
+vitest.config.ts
+tsconfig.json
+package.json
 ```
 
-## %d%.installation_config_title
+### %d%.install_deps_title
 
-### %d%.installation_tsconfig_title
+%d%.install_deps_desc
+
+#### %d%.install_deps_runtime
+
+```bash
+bun add @carats/core @carats/render @carats/hooks @carats/csr
+bun add @carats/ssr @carats/express @carats/ssg
+bun add express compression sirv
+```
+
+#### %d%.install_deps_dev
+
+```bash
+bun add -d jjsx vite sass typescript
+bun add -d @types/node @types/express @types/compression
+bun add -d vitest @vitest/coverage-v8 @fetch-mock/vitest cross-env
+```
+
+`@carats/express` requires Express 5, so the major version is not optional.
+
+## %d%.config_title
+
+### %d%.tsconfig_title
 
 %d%.tsconfig_desc
 
@@ -60,15 +115,20 @@ src/
     "module": "esnext",
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "types": ["jjsx"],
+    "typeRoots": ["./src/dto", "./node_modules"],
     "skipLibCheck": true,
     "jsx": "react",
     "jsxFactory": "JJSX.jsxFactory",
     "jsxFragmentFactory": "JJSX.fragmentFactory",
+
+    /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "isolatedModules": true,
     "moduleDetection": "force",
     "noEmit": true,
+
+    /* Linting */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
@@ -79,9 +139,59 @@ src/
 }
 ```
 
-### %d%.installation_package_title
+`typeRoots` does double duty. It points at `src/dto` so the global DTO interfaces are picked up as declaration files, and it keeps `./node_modules` on the search path so `types: ["jjsx"]` resolves, since `jjsx` does not live under `@types`.
 
-%d%.package_desc
+### %d%.vite_client_title
+
+%d%.vite_client_desc
+
+```typescript
+import { defineConfig } from 'vite'
+import path from 'path'
+
+export default defineConfig({
+  publicDir: path.resolve(import.meta.dirname, 'public'),
+  root: path.resolve(import.meta.dirname, 'src/client'),
+  base: '/',
+  appType: 'custom',
+  server: {
+    middlewareMode: true
+  },
+  build: {
+    outDir: path.resolve(import.meta.dirname, 'dist/client'),
+    emptyOutDir: true,
+    manifest: true,
+    minify: true,
+    rollupOptions: {
+      treeshake: true
+    }
+  }
+})
+```
+
+### %d%.vite_server_title
+
+```typescript
+import { defineConfig } from 'vite'
+import path from 'path'
+
+export default defineConfig({
+  publicDir: false,
+  build: {
+    ssr: path.resolve(__dirname, 'src/server/entrypoint.ts'),
+    outDir: path.resolve(__dirname, 'dist/server'),
+    emptyOutDir: true,
+    minify: true,
+    rollupOptions: {
+      treeshake: true
+    }
+  }
+})
+```
+
+### %d%.package_scripts_title
+
+%d%.package_scripts_desc
 
 ```json
 {
@@ -97,15 +207,31 @@ src/
 }
 ```
 
-## %d%.installation_structure_title
+The main application file must live at `src/app.ts`.
+
+## %d%.run_title
+
+%d%.run_desc
+
+## %d%.structure_title
 
 %d%.structure_desc
 
-| %d%.path_col                        | %d%.description_col                    |
-|-----------------------------|--------------------------------|
-| `src/app.ts`                | %d%.desc_app_entry_point   |
-| `src/client/index.html`     | %d%.desc_client_template           |
-| `src/client/entrypoint.ts`  | %d%.desc_client_entrypoint |
-| `src/client/facets.cara.ts` | %d%.desc_route_definitions              |
-| `src/server/entrypoint.ts`  | %d%.desc_server_entrypoint      |
-| `src/server/culets/`        | %d%.desc_server_functions     |
+| %d%.path_col | %d%.description_col |
+|---|---|
+| `src/app.ts` | %d%.desc_app_entry_point |
+| `src/vite-env.d.ts` | %d%.desc_vite_env |
+| `src/client/index.html` | %d%.desc_client_template |
+| `src/client/entrypoint.ts` | %d%.desc_client_entrypoint |
+| `src/client/facets.tsx` | %d%.desc_route_definitions |
+| `src/client/base.sass` | %d%.desc_base_sass |
+| `src/client/pages/` | %d%.desc_pages |
+| `src/client/components/` | %d%.desc_components |
+| `src/server/entrypoint.ts` | %d%.desc_server_entrypoint |
+| `src/server/culets.ts` | %d%.desc_server_functions |
+| `src/dto/` | %d%.desc_dto |
+| `public/` | %d%.desc_public |
+
+## %d%.next_steps_title
+
+%d%.next_steps_desc

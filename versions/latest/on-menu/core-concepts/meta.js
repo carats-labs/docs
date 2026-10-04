@@ -5,5 +5,5 @@ export default metadata({
     description: '%d%.core_concepts_intro',
     keywords: ['carats', 'core concepts', 'jjsx', 'facets', 'culets', 'server props'],
     menuOrder: 2,
-    generateTOC: true
+    generateTOC: false
 });

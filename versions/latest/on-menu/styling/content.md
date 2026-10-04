@@ -68,12 +68,15 @@ $transition-normal: 250ms ease
 
 ### %d%.incorrect_usage
 
-```sass
-// Don't nest variables
+```scss
+// Tokens must stay at the top level of base.sass
 .my-component
+    $color-text: #333
     .inner
-        color: $color-text  // Harder to maintain
+        color: $color-text
 ```
+
+A token defined inside a rule only exists inside that rule, so any other stylesheet that needs it has to redefine it. This is how a palette quietly drifts apart across a project.
 
 ## %d%.semantic_html_title
 
@@ -169,8 +172,8 @@ export default function Card(props: { title: string; children?: JSX.Element }) {
 
 %d%.best_practices_intro
 
-1. **%d%.best_practice1**
-2. **%d%.best_practice2**
-3. **%d%.best_practice3**
-4. **%d%.best_practice4**
-5. **%d%.best_practice5**
+1. %d%.best_practice1
+2. %d%.best_practice2
+3. %d%.best_practice3
+4. %d%.best_practice4
+5. %d%.best_practice5

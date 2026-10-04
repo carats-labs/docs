@@ -8,10 +8,14 @@
     <meta name="keywords" content="%meta_keywords%" />
     <link rel="icon" href="/static/assets/favicon.svg">
     <title>%meta_title%</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/sidebar.css" />
     <link rel="stylesheet" href="/static/css/base.css" />
     <link rel="stylesheet" href="/static/css/instajax.css" />
-    <link rel="stylesheet" href="/static/css/color-themes/whatsapp.css" />
+    <link rel="stylesheet" href="/static/css/color-themes/carats.css" />
+    <link rel="stylesheet" href="/static/css/carats.css" />
     <script type="text/javascript" src="/static/plugins/log-logo.js" ></script>
     <script type="text/javascript" src="/static/plugins/instajax.js" ></script>
     <link rel="stylesheet" href="/static/css/hljs-tokyo-night-dark.min.css">
@@ -32,8 +36,8 @@
         %header%
         <article>
           %search%
-          %generated_table_of_contents%
-          %content%
+          <div id="toc"></div>
+          <div class="content">%content%</div>
         </article>
       </main>
       %footer%

@@ -2,20 +2,18 @@
 
 %d%.intro_paragraph
 
-## %d%.getting_started_heading
-[%d%.getting_started_link](/%lang%/%version%/getting-started)
-
-## %d%.core_concepts_heading
-[%d%.core_concepts_link](/%lang%/%version%/core-concepts)
-
-## %d%.components_heading
-[%d%.components_link](/%lang%/%version%/components)
-
-## %d%.server_side_heading
-[%d%.server_side_link](/%lang%/%version%/server-side)
-
-## %d%.hooks_heading
-[%d%.hooks_link](/%lang%/%version%/hooks)
-
-## %d%.styling_heading
-[%d%.styling_link](/%lang%/%version%/styling)
+| %d%.home_sections_col | %d%.home_guide_col |
+|---|---|
+| %d%.getting_started_title | [%d%.read_more](%home_link%/getting-started) |
+| %d%.core_concepts_title | [%d%.read_more](%home_link%/core-concepts) |
+| %d%.components_title | [%d%.read_more](%home_link%/components) |
+| %d%.server_side_title | [%d%.read_more](%home_link%/server-side) |
+| %d%.data_fetching_title | [%d%.read_more](%home_link%/data-fetching) |
+| %d%.routing_title | [%d%.read_more](%home_link%/routing) |
+| %d%.hooks_title | [%d%.read_more](%home_link%/hooks) |
+| %d%.styling_title | [%d%.read_more](%home_link%/styling) |
+| %d%.testing_title | [%d%.read_more](%home_link%/testing) |
+| %d%.static_generation_title | [%d%.read_more](%home_link%/static-generation) |
+| %d%.api_reference_title | [%d%.read_more](%home_link%/api-reference) |
+| %d%.conventions_title | [%d%.read_more](%home_link%/conventions) |
+| %d%.react_migration_title | [%d%.read_more](%home_link%/react-migration) |
