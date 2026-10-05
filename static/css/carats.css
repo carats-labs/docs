@@ -526,3 +526,143 @@ a#menuLink:hover span,
 a#menuLink[data-active='true'] span {
     box-shadow: 0 0 10px rgba(240, 216, 154, .45);
 }
+
+/* ---------- right-to-left ---------- */
+
+/* `rtl-dir.js` puts dir="rtl" on <html> for ar. The sidebar is a fixed
+   off-canvas panel pinned with `left`/`padding-left`/`translateX`, and the
+   content indents with `padding-left`, so those physical properties have to be
+   mirrored. They are overridden here rather than rewritten as logical
+   properties upstream so the LTR rules stay readable and untouched.
+
+   Specificity note: these selectors carry an extra attribute, so they beat the
+   base rules on their own. The two media-query blocks below are therefore not
+   optional restatements — without them the desktop layout would keep the
+   mirrored off-canvas transform and the mirrored padding. */
+
+[dir='rtl'] #menu {
+    left: auto;
+    right: 0;
+    border-right: 0;
+    border-left: 1px solid var(--color-border-default);
+    transform: translateX(100%);
+}
+
+[dir='rtl'] a#menuLink {
+    left: auto;
+    right: 100%;
+}
+
+[dir='rtl'] #menu a {
+    padding: .6em .6em .6em 1em;
+}
+
+[dir='rtl'] #menu nav li[aria-current='page'] a {
+    box-shadow: inset -1px 0 0 var(--gold);
+}
+
+[dir='rtl'] #menu nav ul li li a {
+    padding-left: 1.4rem;
+    padding-right: 2.4rem;
+}
+
+[dir='rtl'] .dropdown {
+    text-align: right;
+}
+
+[dir='rtl'] .dropdown::after,
+[dir='rtl'] #logo-wrapper .dropdown::after {
+    right: auto;
+    left: .6em;
+    mask-position: left center;
+}
+
+[dir='rtl'] .dropdown select {
+    padding: .4em 2em .4em .4em;
+}
+
+[dir='rtl'] #logo-wrapper .dropdown select {
+    padding: .35rem .85rem .35rem 1.6rem;
+}
+
+[dir='rtl'] #layout[data-active='true'] #menu {
+    transform: translateX(0);
+}
+
+@media not (min-width: 48em) {
+    [dir='rtl'] #layout[data-active='true'] main {
+        transform: translateX(-350px);
+    }
+}
+
+@media (min-width: 48em) {
+    [dir='rtl'] #menu {
+        transform: translateX(0);
+    }
+
+    [dir='rtl'] #layout {
+        padding-left: 0;
+        padding-right: 350px;
+    }
+}
+
+[dir='rtl'] .content ul,
+[dir='rtl'] .content ol {
+    padding-left: 0;
+    padding-right: 1.35rem;
+}
+
+[dir='rtl'] .content blockquote {
+    padding: .1rem 1.1rem .1rem 0;
+    border-left: 0;
+    border-right: 1px solid var(--gold);
+}
+
+[dir='rtl'] .content th,
+[dir='rtl'] .content td {
+    text-align: right;
+}
+
+[dir='rtl'] #table-of-contents ol,
+[dir='rtl'] #table-of-contents ul,
+[dir='rtl'] #table-of-contents ol ol,
+[dir='rtl'] #table-of-contents ul ul {
+    padding-left: 0;
+    padding-right: 1.5em;
+}
+
+[dir='rtl'] #table-of-contents a {
+    transition: color .2s, padding-right .2s;
+}
+
+[dir='rtl'] #table-of-contents a:hover {
+    padding-left: 0;
+    padding-right: .35rem;
+}
+
+[dir='rtl'] ul ul li,
+[dir='rtl'] ol ol li {
+    padding-left: 0;
+    padding-right: 2rem;
+}
+
+/* Code is left-to-right in every language. Forcing it keeps an identifier such
+   as `req.params` readable when it sits inside an Arabic sentence, and keeps
+   the sample blocks aligned the way they were written. */
+[dir='rtl'] .content pre,
+[dir='rtl'] .content pre code {
+    direction: ltr;
+    text-align: left;
+}
+
+[dir='rtl'] .content code {
+    unicode-bidi: embed;
+}
+
+[dir='rtl'] .brand-sub,
+[dir='rtl'] .content h3,
+[dir='rtl'] .content h4,
+[dir='rtl'] #table-of-contents h2,
+[dir='rtl'] #logo-wrapper .dropdown select {
+    letter-spacing: normal;
+}

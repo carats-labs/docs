@@ -1,24 +1,43 @@
 /**
  * Verifies the docs against the framework that `bun create carats` installs.
  *
- *   1. every %d%.key used by a page exists in the dictionary
- *   2. keys consumed programmatically (by instant-docs or a local plugin) are
+ *   1. every %d%.key used by a page exists in every language dictionary
+ *   2. all languages define the same key set, with no empty translations
+ *   3. keys consumed programmatically (by instant-docs or a local plugin) are
  *      accounted for rather than reported as dead
- *   3. no legacy API name survives in any page
- *   4. every identifier the docs attribute to a package is really exported,
+ *   4. no legacy API name survives in any page
+ *   5. every identifier the docs attribute to a package is really exported,
  *      read from the installed .d.ts
- *   5. the documented folder layout matches the generated app
+ *   6. the documented folder layout matches the generated app
+ *   7. no prose is hardcoded: every reader-visible string is a dictionary key
  */
 import { readFileSync, readdirSync, statSync, existsSync } from 'fs';
 import { join, relative } from 'path';
 
-const DOCS = 'carats-docs/versions/latest';
+const DOCS = process.env.DOCS_DIR ?? 'versions/latest';
 const APP = 'benchmark/carats-app/node_modules/@carats';
+const LANGS = (process.env.CONTENT_LANGUAGES ?? 'en').split(',').map((l) => l.trim()).filter(Boolean);
+const DEFAULT_LANG = process.env.DEFAULT_LANG ?? 'en';
 
-// instant-docs resolves these itself, so they never appear as %d%. in a page:
+// resolved without appearing as %d%. in a page:
 //   expand             -> aria-label on the sidebar expand button (generate-nav.js)
 //   table_of_contents  -> TOC heading (genereate-toc.js, and src/plugins/backend/toc.js)
-const CONSUMED_ELSEWHERE = new Set(['expand', 'table_of_contents']);
+//   change_language,
+//   language_name_*    -> the <select> the language-changer plugin injects, which
+//                         reads the dictionary file itself because it runs after
+//                         placeholder substitution
+//   no_results         -> static/js/search.js reads it off window.dictionary,
+//                         which %dictionary% serialises into the page
+const CONSUMED_ELSEWHERE = new Set([
+  'expand',
+  'table_of_contents',
+  'change_language',
+  'language_name_en',
+  'language_name_tr',
+  'language_name_ar',
+  'language_name_es',
+  'no_results',
+]);
 
 let failures = 0;
 const fail = (m) => { failures++; console.log('  FAIL  ' + m); };
@@ -35,23 +54,45 @@ function walk(dir, acc = []) {
 }
 
 const pages = walk(DOCS).filter((f) => /\.(md|html)$/.test(f));
-const dict = JSON.parse(readFileSync(join(DOCS, 'dictionary.json'), 'utf8')).en;
+const dictionaries = Object.fromEntries(
+  LANGS.map((lang) => [lang, JSON.parse(readFileSync(join(DOCS, `dictionary_${lang}.json`), 'utf8'))]),
+);
+const dict = dictionaries[DEFAULT_LANG];
 
 // ---- 1 + 2. dictionary
 const used = new Set();
 for (const p of pages) {
   for (const m of readFileSync(p, 'utf8').matchAll(/%d%\.([A-Za-z0-9_]+)/g)) used.add(m[1]);
 }
-const missing = [...used].filter((k) => !(k in dict)).sort();
-missing.length ? fail(`referenced but absent from dictionary: ${missing.join(', ')}`)
-               : ok(`all ${used.size} referenced dictionary keys resolve`);
+for (const lang of LANGS) {
+  const d = dictionaries[lang];
+  const missing = [...used].filter((k) => !(k in d)).sort();
+  missing.length
+    ? fail(`${lang}: referenced but absent from dictionary: ${missing.join(', ')}`)
+    : ok(`${lang}: all ${used.size} referenced dictionary keys resolve`);
+}
+const reference = dict;
+for (const lang of LANGS.filter((l) => l !== DEFAULT_LANG)) {
+  const d = dictionaries[lang];
+  const missing = Object.keys(reference).filter((k) => !(k in d));
+  const extra = Object.keys(d).filter((k) => !(k in reference));
+  const empty = Object.keys(d).filter((k) => !String(d[k] ?? '').trim());
+  const untranslated = Object.keys(d).filter((k) => d[k] === reference[k]);
+  const problems = [];
+  if (missing.length) problems.push(`missing ${missing.length}: ${missing.join(', ')}`);
+  if (extra.length) problems.push(`unknown ${extra.length}: ${extra.join(', ')}`);
+  if (empty.length) problems.push(`empty ${empty.length}: ${empty.join(', ')}`);
+  problems.length
+    ? fail(`${lang}: ${problems.join(' | ')}`)
+    : ok(`${lang}: complete, ${Object.keys(d).length} keys, none empty`);
+  // identical strings are expected for proper nouns and package names
+  const suspicious = untranslated.filter((k) => !/^(language_name_|welcome_title$|.*_title$|.*_col$|api_\w+_title$|rm_row_\w+_react$|rm_row_\w+_carats$|jjsx_heading$|hooks_title$|culets_heading$|base_sass_title$)/.test(k));
+  suspicious.length && console.log(`  note  ${lang}: ${untranslated.length} value(s) equal to ${DEFAULT_LANG}, ${suspicious.length} of them not obviously a proper noun`);
+}
 
-const dead = Object.keys(dict).filter((k) => !used.has(k) && !CONSUMED_ELSEWHERE.has(k)).sort();
+const dead = Object.keys(reference).filter((k) => !used.has(k) && !CONSUMED_ELSEWHERE.has(k)).sort();
 dead.length ? fail(`dead dictionary keys (used by nothing): ${dead.join(', ')}`)
             : ok('no dead dictionary keys');
-
-const programmatically = [...CONSUMED_ELSEWHERE].filter((k) => k in dict);
-programmatically.length && ok(`${programmatically.length} key(s) resolved by instant-docs/plugins: ${programmatically.join(', ')}`);
 
 // ---- 3. legacy API
 const LEGACY = [['hydrate(', /hydrate\(/g], ['onMount', /\bonMount\b/g], ['renderPage', /\brenderPage\b/g], ['crown', /\bcrown\b/g]];
@@ -130,6 +171,30 @@ if (existsSync(appSrc)) {
   fictional.length ? fail(`docs mention unpublished package(s): ${fictional.map((f) => '@carats/' + f).join(', ')}`)
                    : ok(`every @carats package the docs mention is published (${published.size} available)`);
 }
+
+// ---- 7. no hardcoded prose
+// Anything a reader sees has to come from a dictionary key. Fenced code blocks
+// and HTML comments are skipped: code samples stay as written, and commented
+// blocks are not rendered.
+let hardcoded = 0;
+for (const p of pages.filter((f) => f.endsWith('.md'))) {
+  const prose = readFileSync(p, 'utf8')
+    .replace(/```[\s\S]*?```/g, '')
+    .replace(/<!--[\s\S]*?-->/g, '');
+  for (const line of prose.split(/\r?\n/)) {
+    // drop markdown link targets, placeholders, inline code and list/table syntax
+    const text = line
+      .replace(/\]\([^)]*\)/g, ']')
+      .replace(/%[a-z_]+%(\.[a-z_0-9]+)?/gi, '')
+      .replace(/`[^`]*`/g, '')
+      .replace(/^[|:\-\s>*.]+/, '')
+      .trim();
+    if (!text || !/[A-Za-z]{3,}/.test(text)) continue;
+    hardcoded++;
+    fail(`${relative(DOCS, p)}: prose is not in the dictionary -> ${text.slice(0, 90)}`);
+  }
+}
+if (!hardcoded) ok('no hardcoded prose in any content.md');
 
 console.log(failures ? `\n${failures} problem(s)` : '\nall checks passed');
 process.exit(failures ? 1 : 0);

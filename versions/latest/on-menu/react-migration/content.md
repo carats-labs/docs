@@ -2,7 +2,7 @@
 
 %d%.react_migration_intro
 
-| Concept | %d%.react_col | %d%.carats_col |
+| %d%.concept_col | %d%.react_col | %d%.carats_col |
 |---|---|---|
 | %d%.rm_row_runtime_title | %d%.rm_row_runtime_react | %d%.rm_row_runtime_carats |
 | %d%.rm_row_state_title | %d%.rm_row_state_react | %d%.rm_row_state_carats |
@@ -17,7 +17,7 @@
 
 ## %d%.rm_events_heading
 
-The event model is the change that breaks a port most often, so it is worth being precise about it.
+%d%.rm_events_intro
 
 ```tsx
 // React
@@ -54,15 +54,15 @@ export default function Toggle() {
 
 ## %d%.rm_state_heading
 
-`useState` becomes `use`, and every render that React would have handled becomes an explicit DOM write. State that was local to a component is unchanged in spirit: call `use` at the top level of the component, read it with `get`, and write with `set`.
+%d%.rm_state_desc
 
 ## %d%.rm_routing_heading
 
-The file-system router collapses into a single object. Every route becomes an entry in `defineFacets`, and nested layouts become an explicit import. Because the facets object is shared, a route that is missing from it is missing from both the client and the server, which removes a whole class of bug.
+%d%.rm_routing_desc
 
 ## %d%.rm_data_heading
 
-`getServerSideProps` becomes a culet, and the page becomes burnished. The function signature is the same shape: the request in, the data out.
+%d%.rm_data_desc
 
 ```typescript
 // React / Next.js
@@ -87,11 +87,11 @@ export default Burnish<TradeData>(function (data) {
 
 ## %d%.rm_head_heading
 
-A metadata export becomes `this.head`, and the component has to be a `function` declaration for `this` to exist. A component that is already an arrow function can stay one, at the cost of not contributing head tags.
+%d%.rm_head_desc
 
 ## %d%.rm_styling_heading
 
-CSS-in-JS has no equivalent. Each component imports a SASS file, that file imports `base.sass` for the design tokens, and the tokens live at the top level of that one global stylesheet.
+%d%.rm_styling_desc
 
 ## %d%.rm_summary_title
 

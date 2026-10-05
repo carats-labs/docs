@@ -54,11 +54,11 @@ declare function Burnish<T = any>(component: CaratsComponentWithThis<T>, options
 declare function Burnish<T = any>(component: CaratsComponent<T>, options?: BurnishOptions): CaratsComponent<T>;
 ```
 
-`defineFacets` takes a `PartialFacets` and returns a fully populated `Facets`, which is why every key of the input is optional. `Facets['suspense']` lists all three states, but the partial input allows declaring only the ones that matter.
+%d%.define_facets_note
 
-`head` is a `JSX.Element`, not a string. Assign a fragment of tags to it, and the framework collects the fragment during rendering.
+%d%.head_note
 
-`getPageComponent` is the function the server plugin is built on. It is exported because it is useful on its own: given a URL it resolves a component plus its parameters, which is enough to work out what a request would render.
+%d%.get_page_component_note
 
 ## %d%.api_csr_title
 
@@ -81,7 +81,7 @@ declare function clientRender(): Promise<void>;
 declare function goTo(url: string): void;
 ```
 
-The `_isHandled` flag on `HTMLAnchorElement` is how the runtime marks a link it has already taken over. Once a link has been handled, navigation happens in the client instead of the browser. Do not set it yourself.
+%d%.is_handled_note
 
 ## %d%.api_hooks_title
 
@@ -133,7 +133,7 @@ declare function culet<T extends Object = any>(route: string, culet: Culet<T>): 
 declare function defineServerEntry(facets: Facets): CaratsServerEntry;
 ```
 
-`CuletArgs` is `CaratsRequest` without `data`, plus `params`. The absence of `data` is deliberate: a culet is only ever reached by a GET, so there is no request body to read.
+%d%.culet_args_note
 
 ## %d%.api_express_title
 
@@ -160,4 +160,4 @@ declare function replaceParams(route: string, params: Record<string, string>): s
 #!/usr/bin/env bun
 ```
 
-`@carats/ssg` ships a command-line tool and no runtime exports, so it has no importable surface. It is referenced by the `build:static` script and nowhere in application code.
+%d%.ssg_no_exports_note

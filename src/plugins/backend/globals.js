@@ -25,6 +25,7 @@ export default function setGlobals({ html, meta, lang, dir }) {
     `
     <script>
         window.globals = ${JSON.stringify({ meta, lang, dir, version })};
+        window.lang = ${JSON.stringify(lang)};
         window.getLink = ${hardCodedGetLink}
     </script>`.trim(),
   );

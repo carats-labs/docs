@@ -8,7 +8,7 @@
 
 ### %d%.creating_base_sass
 
-```sass
+```scss
 // Colors
 $color-primary: #000000
 $color-secondary: #ffffff
@@ -57,7 +57,7 @@ $transition-normal: 250ms ease
 
 ### %d%.correct_usage
 
-```sass
+```scss
 @use '../base.sass' as *
 
 .my-component
@@ -76,7 +76,7 @@ $transition-normal: 250ms ease
         color: $color-text
 ```
 
-A token defined inside a rule only exists inside that rule, so any other stylesheet that needs it has to redefine it. This is how a palette quietly drifts apart across a project.
+%d%.token_scope_note
 
 ## %d%.semantic_html_title
 
@@ -106,7 +106,7 @@ export default function Card(props: { title: string; children?: JSX.Element }) {
 
 ### %d%.corresponding_sass
 
-```sass
+```scss
 @use '../base.sass' as *
 
 .card
@@ -145,7 +145,7 @@ export default function Card(props: { title: string; children?: JSX.Element }) {
 
 ## %d%.responsive_styling_title
 
-```sass
+```scss
 @use '../base.sass' as *
 
 .container

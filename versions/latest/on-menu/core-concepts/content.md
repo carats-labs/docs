@@ -8,11 +8,11 @@
 
 ### %d%.jjsx_features
 
-- **%d%.jjsx_feature1**: Write pure HTML & JavaScript in `.tsx` files
-- **%d%.jjsx_feature2**: No React dependencies
-- **%d%.jjsx_feature3**: Automatic server and client-side rendering
+- %d%.jjsx_feature1
+- %d%.jjsx_feature2
+- %d%.jjsx_feature3
 
-JJSX compiles to a function call, so a component is an ordinary function that returns an HTML string. There is no virtual DOM to diff and no component instance to keep alive, which is why the same function is safe to run on the server and again in the browser.
+%d%.jjsx_compiles_note
 
 ```tsx
 export default function Greeting(props: { name: string }) {
@@ -48,7 +48,7 @@ export default defineFacets({
 
 > %d%.facets_partial_note
 
-A facet is also the unit of data fetching. A route in `routes` is the route a culet must be registered under, and a page that is wrapped with `Burnish` receives the value that culet returned.
+%d%.facets_data_note
 
 ## %d%.culets_heading
 
@@ -70,7 +70,7 @@ export default culet<User>('/profile', (req) => {
 });
 ```
 
-With a dynamic route, the parameter is read from `req.params`:
+%d%.culet_dynamic_params_note
 
 ```typescript
 // src/server/culets/trade.ts
@@ -118,13 +118,13 @@ export default Burnish<TradeData>(function (data) {
 });
 ```
 
-A page that is not burnished simply receives no props, which is the normal case for a static page.
+%d%.unburnished_page_note
 
 ## %d%.rendering_heading
 
 %d%.rendering_desc
 
-The practical consequence is that statements in a component body run twice in a normal page load: once on the server, once in the browser. Anything that touches `document`, reads `window` or performs a side effect has to be deferred to a hook, otherwise server-side rendering will throw.
+%d%.rendering_twice_note
 
 ## %d%.client_runtime_heading
 
@@ -155,4 +155,4 @@ export default function SearchInput() {
 }
 ```
 
-`goTo` navigates the same way an intercepted link click does, so no document reload happens when in-app routing is enabled.
+%d%.goto_no_reload_note

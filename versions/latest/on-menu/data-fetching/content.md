@@ -23,7 +23,7 @@ export default culet<TradeData>('/trade/:symbol', async (req) => {
 });
 ```
 
-A thrown error, whether from the culet or from the component, reaches the `error` suspense component as an `Error`. An unmatched URL reaches `notFound` instead.
+%d%.thrown_error_note
 
 ## %d%.culet_args_heading
 
@@ -46,7 +46,7 @@ culet<Dashboard>('/dashboard', (req) => {
 });
 ```
 
-Because `cookies` and `headers` are available, a culet can personalise a page per visitor without any extra plumbing. The response is still cached per route, so do not put per-visident data in a culet that is not marked `recast` on the consuming component.
+%d%.per_visitor_note
 
 ## %d%.async_heading
 
@@ -74,7 +74,7 @@ culet<TradeData>('/trade/:symbol', async (req) => {
 culet<TradeData>('/trade/:symbol', handler)
 ```
 
-There is no implicit matching by file name or by component name. A typo in the route string fails silently: the page renders, the props are `undefined`, and the error surfaces as a crash inside the component. Registering the culet route as a named constant and importing it into both places removes the failure mode.
+%d%.no_implicit_match_note
 
 ## %d%.caching_heading
 
@@ -102,7 +102,7 @@ export default Burnish<TradeData>(function (data) {
 }, { recast: true });
 ```
 
-`recast` belongs on the component, not on the culet, so a single live page does not force every consumer of that route to refetch.
+%d%.recast_on_component_note
 
 ## %d%.ssp_global_heading
 
@@ -124,4 +124,4 @@ export default function LiveBadge() {
 }
 ```
 
-The client global is typed, so `window.carats` needs no cast. `ssp.for` is the route the payload belongs to, which lets a shared component verify that the data it is about to read was resolved for the page it is rendered on, and skip it when it was not.
+%d%.ssp_typed_note

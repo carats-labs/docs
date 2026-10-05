@@ -85,7 +85,7 @@ declare function use<T>(initialState: T): State<T>;
 
 %d%.set_returns_note
 
-`use` is also callable outside a component, which is the idiomatic way to share a single piece of state between pages.
+%d%.use_outside_component_note
 
 ### %d%.subscribe_method_title
 
@@ -138,7 +138,7 @@ export default function MyComponent() {
 }
 ```
 
-Keep a reference to the exact handler you registered. Passing a fresh arrow function to `removeEventListener` creates a new function identity, so the listener is never actually removed.
+%d%.handler_identity_note
 
 ## %d%.beforemount_title
 

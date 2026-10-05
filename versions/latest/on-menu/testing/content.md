@@ -65,7 +65,7 @@ test("Render profile page", () => {
 
 %d%.testing_burnish_desc
 
-`init()` installs the JJSX transpiler and must run before the first `transpile` call. Because the result is a plain HTML string, there is no DOM to set up and no rendering library to configure.
+%d%.init_transpiler_note
 
 ## %d%.testing_culet_title
 
@@ -94,8 +94,8 @@ describe("Trade API", () => {
 });
 ```
 
-`@fetch-mock/vitest` is available for a culet that calls a remote API, which keeps the test offline and deterministic.
+%d%.fetch_mock_note
 
 ## %d%.testing_coverage_title
 
-A component that reads `window` or `document` directly in its body cannot be transpiled in a test, because the test environment has no document. That is a useful signal rather than an obstacle: it means the side effect belongs in an `afterMount` or `beforeMount` callback, where the framework already keeps it out of the server render.
+%d%.no_document_note

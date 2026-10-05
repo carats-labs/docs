@@ -29,7 +29,7 @@ src/client/pages/
     └── trade.sass
 ```
 
-The leading underscore is what marks a folder as a building block rather than a page. It keeps shared components out of the way in the file tree and signals that they are not meant to be routed to.
+%d%.underscore_folders_note
 
 ## %d%.conv_layout_title
 
@@ -53,7 +53,7 @@ export default Burnish(function (user: User) {
 });
 ```
 
-The layout renders `props.children` where the page content belongs, which is the only composition mechanism. There is no nested-route tree and no automatic wrapping, so the dependency is visible in the import.
+%d%.layout_children_note
 
 ## %d%.conv_error_title
 
@@ -75,13 +75,13 @@ interface User {
 }
 ```
 
-The interface has no `export`, which is what makes it global. With `typeRoots` pointing at `src/dto`, `culet<User>` and `Burnish<User>` resolve in every file without an import, and a rename in one place is picked up everywhere.
+%d%.dto_no_export_note
 
 ## %d%.conv_sass_title
 
 %d%.conv_sass_desc
 
-```sass
+```scss
 // src/client/pages/trade/trade.sass
 @use '../../base' as *
 
@@ -90,7 +90,7 @@ The interface has no `export`, which is what makes it global. With `typeRoots` p
     display: flex
 ```
 
-The extension in the `@use` path is optional, and the path is relative to the stylesheet rather than to the component. `base.sass` is the only file that defines tokens; every other file consumes them.
+%d%.sass_use_path_note
 
 ## %d%.conv_naming_title
 

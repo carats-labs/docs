@@ -20,27 +20,39 @@ import config from 'instant-docs/config.js';
 
 const HEADING_LEVELS = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
 
-/** Reads the closest dictionary.json the same way instant-docs does. */
+/**
+ * Reads the closest dictionary the same way instant-docs does: a
+ * `dictionary_<lang>.json` file takes precedence over a `dictionary.json`,
+ * and both are looked up by walking up the directory tree.
+ */
 function getDictionaryValue(dir, lang, key) {
   let current = dir;
   while (current && current !== dirname(current)) {
-    try {
-      const dictionary = JSON.parse(readFileSync(join(current, 'dictionary.json'), config.ENCODING));
-      const entries = dictionary[lang] ?? dictionary[config.DEFAULT_LANG] ?? {};
-      if (entries[key] != null) return entries[key];
-    } catch {
-      /* keep walking up */
+    for (const file of [`dictionary_${lang}.json`, `dictionary_${config.DEFAULT_LANG}.json`, 'dictionary.json']) {
+      try {
+        const parsed = JSON.parse(readFileSync(join(current, file), config.ENCODING));
+        const entries = file === 'dictionary.json' ? parsed[lang] ?? parsed[config.DEFAULT_LANG] ?? {} : parsed;
+        if (entries[key] != null) return entries[key];
+      } catch {
+        /* keep walking up */
+      }
     }
     current = dirname(current);
   }
   return key;
 }
 
+/**
+ * Keeps letters and digits of any script, so a Turkish, Arabic or Spanish
+ * heading still produces a usable anchor instead of collapsing to `section-1`.
+ * Combining marks are kept too, otherwise a decomposed Arabic or Turkish vowel
+ * loses its dots in the id.
+ */
 function slugify(text) {
   return text
     .replace(/<[^>]*>/g, '')
     .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/[^\p{L}\p{N}\p{M}]+/gu, '-')
     .replace(/^-+|-+$/g, '');
 }
 

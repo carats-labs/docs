@@ -61,10 +61,12 @@ function fullTextSearch(input, index){
  * score: number
  * }>} matches 
  */
+const dictionary = window.dictionary ?? {};
+
 function renderSearchResults(matches){
   if(matches.length === 0){
     const noResult = document.createElement('div');
-    noResult.innerText = 'No result found';
+    noResult.innerText = dictionary.no_results || 'No result found';
     replaceResult(noResult);
     return;
   }

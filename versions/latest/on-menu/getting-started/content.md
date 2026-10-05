@@ -17,7 +17,7 @@ bun create carats my-carats-app
 cd my-carats-app
 ```
 
-`bun create carats` resolves the published `create-carats` package and runs its `create-carats` binary, which writes a complete Carats project into the directory you name. Pass no directory to scaffold into the current one.
+%d%.gs_create_generator_note
 
 ### %d%.quickstart_run
 
@@ -26,11 +26,11 @@ bun install
 bun run dev
 ```
 
-The server listens on `http://localhost:5173`. The generated project ships with a dashboard, a market, a portfolio, a trade page, a shared layout, a not-found page and an error page, so every feature described in these docs is already wired up and can be read as working code.
+%d%.gs_dev_server_note
 
 <!-- ### %d%.quickstart_clone
 
-The generator is the recommended path, but the same project is published as a template and can be cloned directly:
+%d%.quickstart_clone_desc
 
 ```bash
 npx degit ufukbakan/vite-jjsx-ssr my-carats-app
@@ -99,7 +99,7 @@ bun add -d @types/node @types/express @types/compression
 bun add -d vitest @vitest/coverage-v8 @fetch-mock/vitest cross-env
 ```
 
-`@carats/express` requires Express 5, so the major version is not optional.
+%d%.gs_express5_note
 
 ## %d%.config_title
 
@@ -139,7 +139,7 @@ bun add -d vitest @vitest/coverage-v8 @fetch-mock/vitest cross-env
 }
 ```
 
-`typeRoots` does double duty. It points at `src/dto` so the global DTO interfaces are picked up as declaration files, and it keeps `./node_modules` on the search path so `types: ["jjsx"]` resolves, since `jjsx` does not live under `@types`.
+%d%.gs_typeroots_note
 
 ### %d%.vite_client_title
 
@@ -207,7 +207,7 @@ export default defineConfig({
 }
 ```
 
-The main application file must live at `src/app.ts`.
+%d%.gs_app_entry_note
 
 ## %d%.run_title
 

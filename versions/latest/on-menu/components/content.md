@@ -35,7 +35,7 @@ export default function Home() {
 }
 ```
 
-The SASS file is imported for its side effect, which is what attaches the stylesheet to the page. A component may import anything Vite understands: SASS, CSS, JSON or images.
+%d%.sass_side_effect_note
 
 ## %d%.component_props_title
 
@@ -98,7 +98,7 @@ export default function Home(this: CaratsComponent) {
 
 > %d%.component_head_note
 
-The `CaratsComponent` type must be imported; it is exported by `@carats/render`. The `this` parameter is only a type annotation and is erased at compile time.
+%d%.carats_component_type_note
 
 ## %d%.component_attributes_title
 
@@ -110,7 +110,7 @@ The `CaratsComponent` type must be imported; it is exported by `@carats/render`.
 <button onclick={() => handleClick()}>Click me</button>
 ```
 
-The function is not a valid HTML attribute value, so it ends up in the markup as garbage and nothing is ever called.
+%d%.function_attribute_note
 
 ### %d%.correct_example
 
@@ -131,7 +131,7 @@ export default function MyButton() {
 }
 ```
 
-The same rule applies to `onsubmit`, `oninput`, `onchange` and every other event attribute. Give the element an `id` and look it up inside a hook callback.
+%d%.other_event_attributes_note
 
 ## %d%.burnish_title
 
@@ -156,7 +156,7 @@ export default Burnish<User>(function (user) {
 export default Burnish<User>((user) => <h1>Hello {user.name}</h1>, { recast: true });
 ```
 
-A burnished component still accepts props like any other component, which is what makes it testable without a server.
+%d%.burnished_props_note
 
 ## %d%.client_entrypoint_title
 
@@ -171,7 +171,7 @@ mount(facets);
 clientRender();
 ```
 
-The global stylesheet is imported here rather than in a page, because it holds the design tokens and the base resets that every page relies on.
+%d%.global_stylesheet_note
 
 ## %d%.vite_config_title
 

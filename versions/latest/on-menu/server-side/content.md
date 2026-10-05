@@ -15,13 +15,13 @@ export default defineServerEntry(facets);
 
 ### %d%.server_entry_methods_title
 
-The object returned by `defineServerEntry` is what the server plugin drives:
+%d%.entry_drives_note
 
-- `render(req)` resolves the facet for the requested URL, runs the page component and returns the rendered `html` together with the collected `head` tags.
-- `getServerProps(req)` resolves the culet for the requested URL and returns its value, or `undefined` when the route has no culet.
-- `facets` is the shared facets object, and `culets` is the registry built by `culet` and `seat`.
+- %d%.entry_render_item
+- %d%.entry_props_item
+- %d%.entry_facets_item
 
-This is why the default export must be the entry itself: the Express plugin calls these functions for every request.
+%d%.entry_default_export_note
 
 ## %d%.culets_server_title
 
@@ -42,7 +42,7 @@ culet<User>('/profile', (req) => {
 });
 ```
 
-The generic parameter is optional but worth keeping: it is what makes the return value match the props of the page that consumes it.
+%d%.generic_param_note
 
 ## %d%.culet_seat_title
 
@@ -55,7 +55,7 @@ import getTradeData from './culets/trade';
 seat(getTradeData);
 ```
 
-A culet declared inline in the entrypoint registers itself, so it needs no `seat` call. A culet imported from `src/server/culets` was created by `culet()` in its own module and must be seated once. Do not wrap a seated culet in another `culet()` call, because that would register the same handler under a second route.
+%d%.inline_culet_note
 
 ## %d%.express_integration_title
 
@@ -102,7 +102,7 @@ const server = app.listen(port, () => {
 export default server;
 ```
 
-Order the middleware so that `carats()` runs after the routes and static handlers it should not swallow. The plugin returns an Express `Router`, which is why it is mounted with `app.use` rather than registered as a route.
+%d%.middleware_order_note
 
 ## %d%.server_vite_config_title
 
@@ -171,7 +171,7 @@ culet<User>('/profile', () => {
 export default defineServerEntry(facets);
 ```
 
-Note that the facet route and the culet route are identical strings, including the `:symbol` parameter. A mismatch is the most common reason a burnished page renders without data.
+%d%.route_match_warning
 
 ## %d%.type_definitions_title
 

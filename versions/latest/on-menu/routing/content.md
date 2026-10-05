@@ -31,7 +31,7 @@ export default defineFacets({
 });
 ```
 
-A page folder name is a convention, not a requirement. The folder keeps related files together, but the route a folder serves is whatever string it is mapped to, so `/market` can live in a folder called `browse` if that reads better.
+%d%.folder_name_convention_note
 
 ## %d%.dynamic_params_heading
 
@@ -53,7 +53,7 @@ export default Burnish<TradeData>(function (data) {
 });
 ```
 
-`/trade/btc` renders this page with `data.symbol` resolved from the culet registered for the same route, and the page renders a different `<title>` for every symbol. The framework does the matching in `getPageComponent`, which returns the component, the extracted `params` and the matched `route`.
+%d%.trade_btc_note
 
 > %d%.route_matching_note
 
@@ -70,9 +70,9 @@ mount(facets);
 clientRender();
 ```
 
-Both lines are required when in-app routing is on. `mount` registers the facets in the browser, and `clientRender` starts intercepting navigation.
+%d%.mount_clientrender_note
 
-Links need no framework component. A plain anchor is intercepted automatically, and a normal link is followed normally if the interception is disabled, which means pages stay crawlable and work without JavaScript.
+%d%.plain_links_note
 
 ## %d%.goto_title
 
@@ -103,7 +103,7 @@ export default function SearchInput() {
 }
 ```
 
-Build the query string with the standard `URLSearchParams`, which handles the encoding for you. To read the parameters of the current route from a component, ask a culet for them: a culet receives the matched parameters in `req.params`, and the page receives whatever the culet returned.
+%d%.query_params_note
 
 ## %d%.routing_suspense_title
 
@@ -145,4 +145,4 @@ export default function ErrorPage(error: Error) {
 }
 ```
 
-Wrap both in the shared layout. A failing page that renders without the site chrome is much harder to diagnose than one that keeps the header and navigation.
+%d%.wrap_in_layout_note

@@ -11,7 +11,7 @@
 import { readdirSync, readFileSync, statSync } from 'fs';
 import { join, relative } from 'path';
 
-const DIST = 'carats-docs/dist';
+const DIST = process.env.DIST_DIR ?? 'dist';
 
 // substituted at runtime in the browser by instant-docs' getLink()
 const RUNTIME_PLACEHOLDERS = new Set(['%version%', '%slug%', '%lang%']);
