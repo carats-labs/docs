@@ -15,11 +15,11 @@ img {
 }
 
 /*
-Add transition to containers so they can push in and out.
+Add transition to the containers that actually slide: the menu and main. #layout
+and a#menuLink never had a transform set on them, so listing them only left a
+transition watching for changes that never came.
 */
-#layout,
 #menu,
-a#menuLink,
 main {
     /* Add main to transition for smooth content shift */
     -webkit-transition: transform 0.3s ease-out;
@@ -41,7 +41,9 @@ This is the parent `<div>` that contains the menu and the content area.
 main>article {
     margin: 0 auto;
     box-sizing: border-box;
-    min-height: calc(100svh - 200px);
+    /* The `calc(100svh - 200px)` that used to be here reserved 200px for a
+       footer with a fixed height. carats.css drops that height in favour of
+       padding, so this reserved space is now dead height under every page. */
     padding: 3rem 2rem 2rem 2rem;
     max-width: 800px;
     line-height: 1.6em;
@@ -259,7 +261,7 @@ a#menuLink span:after {
     /* Push content to the right when menu is active */
     #layout[data-active="true"] main {
         /* Replaces #layout.active main */
-        transform: translateX(350px);
+        /* transform: translateX(350px); */
     }
 }
 
@@ -301,7 +303,7 @@ Hides the menu at `48em`, but modify this based on your app's needs.
     border-radius: 4px;
     margin-block: .5rem;
     box-sizing: border-box;
-    transition: all .2s;
+    transition: opacity .2s, max-height .2s;
     max-height: 350px;
 }
 
@@ -333,7 +335,7 @@ Hides the menu at `48em`, but modify this based on your app's needs.
     overflow-y: auto;
     grid-template-rows: 1fr;
     list-style: none;
-    transition: all .2s;
+    transition: max-height .2s;
 }
 
 #search-result-container ol>*,
@@ -382,15 +384,12 @@ li>button[aria-controls] {
 
 li>ol,
 li>ul {
-    max-height: 0;
-    /* transition: .3s; */
-    overflow: hidden;
+    display: none;
 }
 
 li[aria-expanded="true"]>ol,
 li[aria-expanded="true"]>ul {
-    max-height: inherit;
-    overflow: auto;
+    display: block;
 }
 
 .chevron {
