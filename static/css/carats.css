@@ -324,7 +324,7 @@ main>article {
 }
 
 #menu nav ul {
-    border-top: 1px solid var(--color-border-default);
+    border-top: 0;
     padding: .5rem 0 1.5rem;
 }
 
@@ -366,20 +366,39 @@ main>article {
 /* ---------- logo ---------- */
 
 #logo-wrapper {
-    gap: .75rem;
-    padding: 1.15rem 1.4rem 1.1rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-areas:
+        'logo  brand brand brand'
+        'rule  rule  rule  rule'
+        'ver   ver   lang  lang';
+    gap: .7rem .75rem;
+    padding: 1.15rem 1.4rem .7rem;
     border-bottom: 1px solid var(--color-border-default);
 }
 
+/* the divider, bleeding to the sidebar edges the way the border above does */
+#logo-wrapper::before {
+    content: '';
+    grid-area: rule;
+    margin-inline: -1.4rem;
+    border-top: 1px solid var(--color-border-default);
+}
+
+/* `a { display: contents }` promotes the logo and brand to grid items */
 #logo {
     height: 1.5lh;
     width: auto;
+    grid-area: logo;
+    justify-self: start;
 }
 
 .brand {
     display: flex;
     flex-direction: column;
     line-height: 1.15;
+    grid-area: brand;
+    min-width: 0;
 }
 
 .brand-name {
@@ -397,11 +416,15 @@ main>article {
     color: var(--color-text-muted);
 }
 
-/* instant-docs wraps the version select in `.dropdown` and paints that wrapper
-   as a filled accent pill with a chevron mask. On this theme it is a quiet
-   hairline control instead, so the wrapper is neutralised and the select
-   inside it carries the styling. */
+#logo-wrapper .dropdown:nth-of-type(1) { grid-area: ver; }
+#logo-wrapper .dropdown:nth-of-type(2) { grid-area: lang; }
+
+/* instant-docs wraps each select in `.dropdown` and paints that wrapper as a
+   filled accent pill with a chevron mask. On this theme it is a quiet hairline
+   control instead, so the wrapper is neutralised and the select inside it
+   carries the styling. */
 #logo-wrapper .dropdown {
+    min-width: 0;
     background: transparent;
     border: 1px solid var(--color-border-default);
     border-radius: 0;
@@ -439,16 +462,20 @@ main>article {
 #logo-wrapper .dropdown select {
     appearance: none;
     -webkit-appearance: none;
+    /* `sidebar.css` gives the select `width: 100%`, which now resolves against
+       the grid track rather than a flex row, so the control fills its half. */
+    width: 100%;
     background: transparent;
     border: 0;
     border-radius: 0;
     height: auto;
-    padding: .35rem 1.6rem .35rem .85rem;
+    padding: .3rem 1.5rem .3rem .7rem;
     color: var(--color-text-muted);
     font-family: var(--font-mono);
     font-size: .625rem;
     letter-spacing: .16em;
     text-transform: uppercase;
+    text-overflow: ellipsis;
     cursor: pointer;
 }
 
@@ -582,7 +609,7 @@ a#menuLink[data-active='true'] span {
 }
 
 [dir='rtl'] #logo-wrapper .dropdown select {
-    padding: .35rem .85rem .35rem 1.6rem;
+    padding: .3rem .7rem .3rem 1.5rem;
 }
 
 [dir='rtl'] #layout[data-active='true'] #menu {
