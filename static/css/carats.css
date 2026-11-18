@@ -227,6 +227,10 @@ main>article {
     background: var(--surface);
 }
 
+#table-of-contents:empty {
+    display: none;
+}
+
 #table-of-contents h2 {
     margin: 0 0 1rem;
     font-size: 1rem;
@@ -616,12 +620,10 @@ a#menuLink[data-active='true'] span {
     transform: translateX(0);
 }
 
-@media not (min-width: 48em) {
-    [dir='rtl'] #layout[data-active='true'] main {
-        transform: translateX(-350px);
-    }
-}
-
+/* Arabic used to slide `main` left on open, mirroring an LTR shift that
+   sidebar.css has since commented out — so the two languages disagreed. It has
+   to go anyway now that the mobile panel is on the right: pushing content left
+   would move it away from the panel it is meant to sit beside. */
 @media (min-width: 48em) {
     [dir='rtl'] #menu {
         transform: translateX(0);
@@ -692,4 +694,124 @@ a#menuLink[data-active='true'] span {
 [dir='rtl'] #table-of-contents h2,
 [dir='rtl'] #logo-wrapper .dropdown select {
     letter-spacing: normal;
+}
+
+/* ---------- mobile: right-hand panel, bottom-right toggle ---------- */
+
+/* On a phone the panel hangs off the right edge and the toggle lives in the
+   bottom-right corner, so the nav opens under the same thumb that summoned it
+   rather than the reader reaching across the screen. The media guard is what
+   keeps desktop identical: left-hand panel, space reserved with
+   `padding-left`, no toggle. */
+
+@media not (min-width: 48em) {
+    #menu {
+        left: auto;
+        right: 0;
+        /* At a flat 350px the panel covered all but 10px of a 360px screen,
+           and tapping outside is what closes the menu, so that sliver was the
+           only dismiss target. Capping at 86vw always leaves a strip. */
+        width: min(350px, 86vw);
+        transform: translateX(100%);
+        /* Promote up front. Without it the first frame of a drag pays for the
+           layer promotion, which lands exactly where the finger expects motion
+           and reads as the panel lagging behind the finger. */
+        will-change: transform;
+    }
+
+    /* The toggle is outside #menu in the markup. A fixed element inside a
+       transformed ancestor is positioned and moved relative to that ancestor,
+       so keeping it inside made the button ride the panel during a drag and
+       jump when the panel settled. Outside, it is a viewport-level control and
+       a stable drag handle for the same swipe. */
+    a#menuLink,
+    [dir='rtl'] a#menuLink {
+        top: auto;
+        left: auto;
+        right: 0;
+        bottom: 0;
+        width: auto;
+        padding: 1.25rem 1rem;
+        /* clears the iOS home indicator */
+        padding-bottom: calc(1.25rem + env(safe-area-inset-bottom));
+        /* The button is a drag target. Without this the browser can turn the
+           first few horizontal pixels into scroll or a back gesture before
+           pointermove is delivered, which is exactly where the panel should
+           start moving. */
+        touch-action: none;
+        -webkit-user-select: none;
+        user-select: none;
+        -webkit-touch-callout: none;
+    }
+
+    /* keep the last nav link clear of the toggle */
+    #menu[data-active='true'] {
+        padding-bottom: 4rem;
+    }
+
+    /* The bars are `width: 100%`, so with the anchor back to `auto` they need a
+       width of their own or the whole button collapses and the icon vanishes. */
+    a#menuLink span {
+        width: 1.25rem;
+    }
+
+    /* pan-y leaves vertical scrolling to the browser and hands horizontal
+       movement to the swipe handler. */
+    #menu,
+    main,
+    footer {
+        touch-action: pan-y;
+    }
+
+    /* #menu nav is its own vertical scroller, so it is the element the browser
+       consults for gestures that start on a link. With its default `auto`, the
+       first rightward move became a native pan and the browser sent
+       pointercancel, which is why closing the drawer from a nav link did
+       nothing. Repeat pan-y on the subtree so no descendant can re-enable the
+       horizontal pan. */
+    #menu nav,
+    #menu nav * {
+        touch-action: pan-y;
+    }
+
+    /* A swipe that starts on a link should drag the panel, not select or
+       long-press the link. */
+    #menu {
+        -webkit-user-select: none;
+        user-select: none;
+        -webkit-touch-callout: none;
+    }
+
+    #menu a {
+        -webkit-user-drag: none;
+    }
+
+    /* The scrim used to spring into existence only after the release, so a
+       drag moved the panel over an undimmed page and then the page dimmed in
+       one frame. Keeping a base scrim in the tree lets opacity transition on
+       click-open and on the release of a swipe. */
+    main::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: 999;
+        background-color: rgba(var(--overlay-color), .75);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .3s ease-out;
+    }
+
+    #layout[data-active='true'] main::before {
+        opacity: .75;
+        pointer-events: auto;
+    }
+
+    /* While the axis is locked the scrim tracks the panel's openness, and the
+       drag stays under the finger without the browser treating it as a page
+       gesture. */
+    #layout[data-dragging='true'] main::before {
+        opacity: calc(.75 * var(--swipe-progress, 1));
+        pointer-events: none;
+        transition: none;
+    }
 }

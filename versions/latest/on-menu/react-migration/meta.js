@@ -5,5 +5,5 @@ export default metadata({
     description: '%d%.react_migration_intro',
     keywords: ['carats', 'react', 'migration', 'porting', 'differences'],
     menuOrder: 13,
-    generateTOC: false
+    generateToc: true
 });

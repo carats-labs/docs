@@ -75,6 +75,23 @@ interface User {
 }
 ```
 
+```typescript
+// src/dto/trade-data.d.ts
+interface TradeData {
+  symbol: string
+  price: number
+  orderBook?: {
+    bids: Array<[number, number]>
+    asks: Array<[number, number]>
+  }
+}
+
+interface Dashboard {
+  theme: string
+  tab: string
+}
+```
+
 %d%.dto_no_export_note
 
 ## %d%.conv_sass_title

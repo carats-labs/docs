@@ -5,5 +5,5 @@ export default metadata({
     description: '%d%.components_intro',
     keywords: ['carats', 'components', 'burnish', 'jsx', 'tsx', 'props', 'head'],
     menuOrder: 3,
-    generateTOC: false
+    generateToc: true
 });

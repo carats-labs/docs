@@ -5,5 +5,5 @@ export default metadata({
     description: '%d%.data_fetching_intro',
     keywords: ['carats', 'data fetching', 'server props', 'ssp', 'recast', 'caching'],
     menuOrder: 8,
-    generateTOC: false
+    generateToc: true
 });

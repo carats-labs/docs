@@ -5,5 +5,5 @@ export default metadata({
     description: '%d%.conventions_intro',
     keywords: ['carats', 'conventions', 'project structure', 'layout', 'dto', 'sass'],
     menuOrder: 12,
-    generateTOC: false
+    generateToc: true
 });

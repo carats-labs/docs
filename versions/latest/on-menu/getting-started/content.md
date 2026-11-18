@@ -28,14 +28,38 @@ bun run dev
 
 %d%.gs_dev_server_note
 
-<!-- ### %d%.quickstart_clone
+## %d%.run_title
 
-%d%.quickstart_clone_desc
+%d%.run_desc
 
-```bash
-npx degit ufukbakan/vite-jjsx-ssr my-carats-app
-cd my-carats-app
-``` -->
+## %d%.terms_title
+
+%d%.terms_desc
+
+- **%d%.term_facet_name**: %d%.term_facet
+- **%d%.term_culet_name**: %d%.term_culet
+- **%d%.term_burnish_name**: %d%.term_burnish
+- **%d%.term_seat_name**: %d%.term_seat
+- **%d%.term_jjsx_name**: %d%.term_jjsx
+
+## %d%.structure_title
+
+%d%.structure_desc
+
+| %d%.path_col | %d%.description_col |
+|---|---|
+| `src/app.ts` | %d%.desc_app_entry_point |
+| `src/vite-env.d.ts` | %d%.desc_vite_env |
+| `src/client/index.html` | %d%.desc_client_template |
+| `src/client/entrypoint.ts` | %d%.desc_client_entrypoint |
+| `src/client/facets.tsx` | %d%.desc_route_definitions |
+| `src/client/base.sass` | %d%.desc_base_sass |
+| `src/client/pages/` | %d%.desc_pages |
+| `src/client/components/` | %d%.desc_components |
+| `src/server/entrypoint.ts` | %d%.desc_server_entrypoint |
+| `src/server/culets.ts` | %d%.desc_server_functions |
+| `src/dto/` | %d%.desc_dto |
+| `public/` | %d%.desc_public |
 
 ## %d%.manual_setup_title
 
@@ -95,7 +119,7 @@ bun add express compression sirv
 
 ```bash
 bun add -d jjsx vite sass typescript
-bun add -d @types/node @types/express @types/compression
+bun add -d @types/bun @types/express @types/compression
 bun add -d vitest @vitest/coverage-v8 @fetch-mock/vitest cross-env
 ```
 
@@ -208,29 +232,6 @@ export default defineConfig({
 ```
 
 %d%.gs_app_entry_note
-
-## %d%.run_title
-
-%d%.run_desc
-
-## %d%.structure_title
-
-%d%.structure_desc
-
-| %d%.path_col | %d%.description_col |
-|---|---|
-| `src/app.ts` | %d%.desc_app_entry_point |
-| `src/vite-env.d.ts` | %d%.desc_vite_env |
-| `src/client/index.html` | %d%.desc_client_template |
-| `src/client/entrypoint.ts` | %d%.desc_client_entrypoint |
-| `src/client/facets.tsx` | %d%.desc_route_definitions |
-| `src/client/base.sass` | %d%.desc_base_sass |
-| `src/client/pages/` | %d%.desc_pages |
-| `src/client/components/` | %d%.desc_components |
-| `src/server/entrypoint.ts` | %d%.desc_server_entrypoint |
-| `src/server/culets.ts` | %d%.desc_server_functions |
-| `src/dto/` | %d%.desc_dto |
-| `public/` | %d%.desc_public |
 
 ## %d%.next_steps_title
 

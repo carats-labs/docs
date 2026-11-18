@@ -15,8 +15,8 @@ importers:
         specifier: ^1.7.1
         version: 1.7.1
       instant-docs:
-        specifier: ^4.3.1
-        version: 4.4.1
+        specifier: ^6.1.0
+        version: 6.1.0
     devDependencies:
       nodemon:
         specifier: ^3.1.10
@@ -174,6 +174,36 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  '@minify-html/node-darwin-arm64@0.18.1':
+    resolution: {integrity: sha512-sc/VJHRcHtEk0IQP2hRA/TWkAQntaYH3RCw8n750NbfzliQqkyrDqNAGiKBOli7UlhFtG/H2aWqGjtOjIM/dZA==}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@minify-html/node-darwin-x64@0.18.1':
+    resolution: {integrity: sha512-0bff2ng4Vgp3+kdC8zgjd5dMN04zkM4nGuYEVP4dLR7J5NCD/Ka4XD4CKNSDZ9goLYQ8BjtKD6AeDTfJ8KBjrA==}
+    cpu: [x64]
+    os: [darwin]
+
+  '@minify-html/node-linux-arm64@0.18.1':
+    resolution: {integrity: sha512-CVGu5XVmmDrGFuA9/b/695rJBFvfTZFwKJJYA1ZXAsBZrqlKVO4bfXPq9DVNmhQ76ky3LFtVZ/+UsU7xpyK5Qw==}
+    cpu: [arm64]
+    os: [linux]
+
+  '@minify-html/node-linux-x64@0.18.1':
+    resolution: {integrity: sha512-qmIv4kRyhZTKO3nXDXHlFrhnmwIKTM57ZRomlYRYdZTWiFW3CbJ4Ggg57qIgx7D/t4dgyS7/O8OTetrWvmEg9w==}
+    cpu: [x64]
+    os: [linux]
+
+  '@minify-html/node-win32-x64@0.18.1':
+    resolution: {integrity: sha512-SNRE/NvcKXvh4UwXTRrujNSWaCj/3E+FFN+FLOBaN4FY+dZG83h6nWxGHJ5+LAoJxVTU7Al1e8toi4JjHpzv2w==}
+    cpu: [x64]
+    os: [win32]
+
+  '@minify-html/node@0.18.1':
+    resolution: {integrity: sha512-pNOv6z9zUDrjTU1+VcPOnDzGeaaqd6m9kbyHU+sg9O35450uzfke8ahx8gKlFdp/kQFrRn2rFIGAoANUZ62nSw==}
+    engines: {node: '>= 8.6.0'}
+    hasBin: true
+
   accepts@2.0.0:
     resolution: {integrity: sha512-5cvg6CtKwfgdmVqY1WIiXKc3Q1bkRqGLi+2W/6ao+6Y7gu/RCwRuAhGEzh5B4KlszSuTLgZYuqFqo5bImjNKng==}
     engines: {node: '>= 0.6'}
@@ -328,10 +358,6 @@ packages:
   domutils@3.2.2:
     resolution: {integrity: sha512-6kZKyUajlDuqlHKVX1w7gyslj9MPIXzIFiz/rGu35uC1wMi+kMhQwGhl4lt9unC9Vb9INnY9Z3/ZA3+FhASLaw==}
 
-  dotenv@16.5.0:
-    resolution: {integrity: sha512-m/C+AwOAr9/W1UOIZUo232ejMNnJAJtYQjUbHoNTBNTJSvqzzDh7vnrei3o3r3m9blf6ZoDkvcw0VmozNRFJxg==}
-    engines: {node: '>=12'}
-
   dunder-proto@1.0.1:
     resolution: {integrity: sha512-KIN/nDJBQRcXw0MLVhZE9iQHmG68qAVIBg9CqmUYjmQIhgij9U5MFvrqkUL5FbtyyzZuOeOt0zdeRe4UY7ct+A==}
     engines: {node: '>= 0.4'}
@@ -439,6 +465,9 @@ packages:
     resolution: {integrity: sha512-sTSfBjoXBp89JvIKIefqw7U2CCebsc74kiY6awiGogKtoSGbgjYE/G/+l9sF3MWFPNc9IcoOC4ODfKHfxFmp0g==}
     engines: {node: '>= 0.4'}
 
+  github-slugger@2.0.0:
+    resolution: {integrity: sha512-IaOQ9puYtjrkq7Y0Ygl9KDZnrf/aiUJYUpVf89y8kyaxbRG7Y1SrX/jaumrv81vc61+kiMempujsM3Yw7w5qcw==}
+
   glob-parent@5.1.2:
     resolution: {integrity: sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow==}
     engines: {node: '>= 6'}
@@ -467,15 +496,8 @@ packages:
     resolution: {integrity: sha512-nbfWpyRMcMrPMmDwJB+dhX/eiaPKtc2RB+0QZskqJ3WjRA/FDS0e9hZrx8EC/lbEv8gXy98FcDbNa/dspAaJMg==}
     engines: {node: '>=12.0.0'}
 
-  htmlfy@0.8.1:
-    resolution: {integrity: sha512-xWROBw9+MEGwxpotll0h672KCaLrKKiCYzsyN8ZgL9cQbVumFnyvsk2JqiB9ELAV1GLj1GG/jxZUjV9OZZi/yQ==}
-
   htmlparser2@9.1.0:
     resolution: {integrity: sha512-5zfg6mHUoaer/97TxnGpxmbR7zJtPwIYFMZ/H5ucTlPZhKvtum05yiPK3Mgai3a0DyVxv7qYqoweaEd2nrYQzQ==}
-
-  http-errors@2.0.0:
-    resolution: {integrity: sha512-FtwrG/euBzaEjYeRqOgly7G0qviiXoJWnvEH2Z1plBdXgbyjv34pHTSb9zoeHMyDy33+DWy5Wt9Wo+TURtOYSQ==}
-    engines: {node: '>= 0.8'}
 
   http-errors@2.0.1:
     resolution: {integrity: sha512-4FbRdAX+bSdmo4AUFuS0WNiPz8NgFt+r8ThgNWmlrjQjt1Q7ZR9+zTlce2859x4KSXrwIsaeTqDoKQmtP8pLmQ==}
@@ -498,8 +520,8 @@ packages:
   instajax@1.7.1:
     resolution: {integrity: sha512-mhmqaTRH0l0E/sZZ5K6AJop89Fw4cSqrifd/7gBKxPCvc0O+pvsaKgwIPLnTf8YFJpuckyJIGaHo0y8/WKPo/g==}
 
-  instant-docs@4.4.1:
-    resolution: {integrity: sha512-pfMzpKuL642jpiDHp0414BZZUt1Li1Xa3bJ/pRGv0+uX6k1t1jUrkqbl0fNVGJd4pV34Q/Buq1qS1EwrQhQpgw==}
+  instant-docs@6.1.0:
+    resolution: {integrity: sha512-lqbmNPUH++mU/3bjUkwha0RA2gbCBkIYlUqfE/pWgrnjqzu/o93NEsdSWaaSGR5pY+kXQyXQQ3qSk7VGH91tzg==}
     hasBin: true
 
   ipaddr.js@1.9.1:
@@ -525,13 +547,18 @@ packages:
   is-promise@4.0.0:
     resolution: {integrity: sha512-hvpoI6korhJMnej285dSg6nu1+e6uxs7zG3BYAm5byqDsgJNWwxzM6z6iZiAgQR4TJ30JmBTOwqZUw3WlyH3AQ==}
 
+  marked-gfm-heading-id@4.1.4:
+    resolution: {integrity: sha512-CspnvVfHSkb/znqdPS4jUR8HtCjq3M/DnrsJCrfLBLvdrgbemmoINKpeWKQYkBiXAoBGejw0cV7xzqrPdup3WA==}
+    peerDependencies:
+      marked: '>=13 <19'
+
   marked-highlight@2.2.4:
     resolution: {integrity: sha512-PZxisNMJDduSjc0q6uvjsnqqHCXc9s0eyzxDO9sB1eNGJnd/H1/Fu+z6g/liC1dfJdFW4SftMwMlLvsBhUPrqQ==}
     peerDependencies:
       marked: '>=4 <19'
 
-  marked@18.1.0:
-    resolution: {integrity: sha512-PamYXWWWg2nboG3oX5Ffzpy3EFZROqZJK9hSlMmUnekp7TxPs5DcT95vwd46m73/exfKCRVMtgXoPMI4FEJL6w==}
+  marked@18.2.1:
+    resolution: {integrity: sha512-ii4bxCTCqqwpT86XZWgJNs+ZnAIZksmLGYMViWA7PDIXYIeNo1x6cDdX3JOip9NM/cI6p8z57FxliACboTruMA==}
     engines: {node: '>= 20'}
     hasBin: true
 
@@ -700,10 +727,6 @@ packages:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
     engines: {node: '>=0.10.0'}
 
-  statuses@2.0.1:
-    resolution: {integrity: sha512-RwNA9Z/7PrK06rYLIzFMlaF+l73iwpzsqRIFgbMLbTcLD6cOao82TaWefPXQvB2fOC4AjuYSEndS7N/mTCbkdQ==}
-    engines: {node: '>= 0.8'}
-
   statuses@2.0.2:
     resolution: {integrity: sha512-DvEy55V3DB7uknRo+4iOGT5fP1slR8wQohVdknigZPMpMstaKJQWhwiYBACJE3Ul2pTnATihhBYnRhZQHGBiRw==}
     engines: {node: '>= 0.8'}
@@ -830,6 +853,29 @@ snapshots:
 
   '@esbuild/win32-x64@0.24.2':
     optional: true
+
+  '@minify-html/node-darwin-arm64@0.18.1':
+    optional: true
+
+  '@minify-html/node-darwin-x64@0.18.1':
+    optional: true
+
+  '@minify-html/node-linux-arm64@0.18.1':
+    optional: true
+
+  '@minify-html/node-linux-x64@0.18.1':
+    optional: true
+
+  '@minify-html/node-win32-x64@0.18.1':
+    optional: true
+
+  '@minify-html/node@0.18.1':
+    optionalDependencies:
+      '@minify-html/node-darwin-arm64': 0.18.1
+      '@minify-html/node-darwin-x64': 0.18.1
+      '@minify-html/node-linux-arm64': 0.18.1
+      '@minify-html/node-linux-x64': 0.18.1
+      '@minify-html/node-win32-x64': 0.18.1
 
   accepts@2.0.0:
     dependencies:
@@ -1009,8 +1055,6 @@ snapshots:
       domelementtype: 2.3.0
       domhandler: 5.0.3
 
-  dotenv@16.5.0: {}
-
   dunder-proto@1.0.1:
     dependencies:
       call-bind-apply-helpers: 1.0.2
@@ -1085,14 +1129,14 @@ snapshots:
       content-type: 1.0.5
       cookie: 0.7.1
       cookie-signature: 1.2.2
-      debug: 4.4.1(supports-color@5.5.0)
+      debug: 4.4.3
       depd: 2.0.0
       encodeurl: 2.0.0
       escape-html: 1.0.3
       etag: 1.8.1
       finalhandler: 2.1.1
       fresh: 2.0.0
-      http-errors: 2.0.0
+      http-errors: 2.0.1
       merge-descriptors: 2.0.0
       mime-types: 3.0.2
       on-finished: 2.4.1
@@ -1104,7 +1148,7 @@ snapshots:
       router: 2.2.0
       send: 1.2.1
       serve-static: 2.2.1
-      statuses: 2.0.1
+      statuses: 2.0.2
       type-is: 2.1.0
       vary: 1.1.2
     transitivePeerDependencies:
@@ -1120,12 +1164,12 @@ snapshots:
 
   finalhandler@2.1.1:
     dependencies:
-      debug: 4.4.1(supports-color@5.5.0)
+      debug: 4.4.3
       encodeurl: 2.0.0
       escape-html: 1.0.3
       on-finished: 2.4.1
       parseurl: 1.3.3
-      statuses: 2.0.1
+      statuses: 2.0.2
     transitivePeerDependencies:
       - supports-color
 
@@ -1168,6 +1212,8 @@ snapshots:
       dunder-proto: 1.0.1
       es-object-atoms: 1.1.1
 
+  github-slugger@2.0.0: {}
+
   glob-parent@5.1.2:
     dependencies:
       is-glob: 4.0.3
@@ -1188,22 +1234,12 @@ snapshots:
 
   highlight.js@11.12.0: {}
 
-  htmlfy@0.8.1: {}
-
   htmlparser2@9.1.0:
     dependencies:
       domelementtype: 2.3.0
       domhandler: 5.0.3
       domutils: 3.2.2
       entities: 4.5.0
-
-  http-errors@2.0.0:
-    dependencies:
-      depd: 2.0.0
-      inherits: 2.0.4
-      setprototypeof: 1.2.0
-      statuses: 2.0.1
-      toidentifier: 1.0.1
 
   http-errors@2.0.1:
     dependencies:
@@ -1227,19 +1263,19 @@ snapshots:
 
   instajax@1.7.1: {}
 
-  instant-docs@4.4.1:
+  instant-docs@6.1.0:
     dependencies:
+      '@minify-html/node': 0.18.1
       axios: 1.9.0
       cheerio: 1.0.0
       copy-folder-util: 1.1.5
       csso: 5.0.5
-      dotenv: 16.5.0
       esbuild: 0.24.2
       express: 5.2.1
       highlight.js: 11.12.0
-      htmlfy: 0.8.1
-      marked: 18.1.0
-      marked-highlight: 2.2.4(marked@18.1.0)
+      marked: 18.2.1
+      marked-gfm-heading-id: 4.1.4(marked@18.2.1)
+      marked-highlight: 2.2.4(marked@18.2.1)
       pkg-dir: 8.0.0
     transitivePeerDependencies:
       - debug
@@ -1261,11 +1297,16 @@ snapshots:
 
   is-promise@4.0.0: {}
 
-  marked-highlight@2.2.4(marked@18.1.0):
+  marked-gfm-heading-id@4.1.4(marked@18.2.1):
     dependencies:
-      marked: 18.1.0
+      github-slugger: 2.0.0
+      marked: 18.2.1
 
-  marked@18.1.0: {}
+  marked-highlight@2.2.4(marked@18.2.1):
+    dependencies:
+      marked: 18.2.1
+
+  marked@18.2.1: {}
 
   math-intrinsics@1.1.0: {}
 
@@ -1378,7 +1419,7 @@ snapshots:
 
   router@2.2.0:
     dependencies:
-      debug: 4.4.1(supports-color@5.5.0)
+      debug: 4.4.3
       depd: 2.0.0
       is-promise: 4.0.0
       parseurl: 1.3.3
@@ -1452,8 +1493,6 @@ snapshots:
   slash@5.1.0: {}
 
   source-map-js@1.2.1: {}
-
-  statuses@2.0.1: {}
 
   statuses@2.0.2: {}
 

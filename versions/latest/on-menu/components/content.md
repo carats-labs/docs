@@ -100,6 +100,20 @@ export default function Home(this: CaratsComponent) {
 
 %d%.carats_component_type_note
 
+## %d%.component_status_title
+
+%d%.component_status_desc
+
+```tsx
+import { Status } from '@carats/render';
+
+export default Status(404)(function NotFound() {
+    return <h1>Page not found</h1>;
+});
+```
+
+%d%.component_status_note
+
 ## %d%.component_attributes_title
 
 %d%.component_attributes_desc
@@ -164,7 +178,7 @@ export default Burnish<User>((user) => <h1>Hello {user.name}</h1>, { recast: tru
 
 ```typescript
 import { mount, clientRender } from '@carats/csr';
-import facets from './facets.cara';
+import facets from './facets';
 import './base.sass';
 
 mount(facets);

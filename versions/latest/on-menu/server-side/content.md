@@ -8,7 +8,7 @@
 
 ```typescript
 import { defineServerEntry } from '@carats/ssr';
-import facets from '../client/facets.cara';
+import facets from '../client/facets';
 
 export default defineServerEntry(facets);
 ```
@@ -50,7 +50,7 @@ culet<User>('/profile', (req) => {
 
 ```typescript
 import { culet, seat } from '@carats/ssr';
-import getTradeData from './culets/trade';
+import { getTradeData } from './culets';
 
 seat(getTradeData);
 ```
@@ -65,8 +65,8 @@ seat(getTradeData);
 
 ```typescript
 import { culet, defineServerEntry, seat } from '@carats/ssr';
-import facets from '../client/facets.cara';
-import getTradeData from './culets/trade';
+import facets from '../client/facets';
+import { getTradeData } from './culets';
 
 seat(getTradeData);
 
@@ -129,10 +129,10 @@ export default defineConfig({
 ## %d%.full_server_example_title
 
 ```typescript
-// src/server/culets/trade.ts
+// src/server/culets.ts
 import { culet } from '@carats/ssr';
 
-export default culet<TradeData>('/trade/:symbol', async (req) => {
+export const getTradeData = culet<TradeData>('/trade/:symbol', async (req) => {
     const symbol = req.params.symbol;
     if (!symbol) {
         throw new Error('Symbol is required');
@@ -152,8 +152,8 @@ export default culet<TradeData>('/trade/:symbol', async (req) => {
 ```typescript
 // src/server/entrypoint.ts
 import { culet, defineServerEntry, seat } from '@carats/ssr';
-import facets from '../client/facets.cara';
-import getTradeData from './culets/trade';
+import facets from '../client/facets';
+import { getTradeData } from './culets';
 
 seat(getTradeData);
 
@@ -183,6 +183,7 @@ interface CaratsServerEntry {
     render: (req: CaratsRequest<never>) => Promise<{
         html?: string;
         head?: string;
+        status?: number;
     }>;
     getServerProps: <T = any>(req: CaratsRequest<never>) => Promise<T> | T;
     facets: Facets;

@@ -5,5 +5,5 @@ export default metadata({
     description: '%d%.routing_intro',
     keywords: ['carats', 'routing', 'facets', 'parameters', 'goto', 'in-app routing'],
     menuOrder: 7,
-    generateTOC: false
+    generateToc: true
 });

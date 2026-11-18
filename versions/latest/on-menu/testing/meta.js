@@ -5,5 +5,5 @@ export default metadata({
     description: '%d%.testing_intro',
     keywords: ['carats', 'testing', 'vitest', 'jjsx', 'transpile', 'coverage'],
     menuOrder: 9,
-    generateTOC: false
+    generateToc: true
 });

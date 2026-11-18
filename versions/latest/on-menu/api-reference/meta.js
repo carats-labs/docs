@@ -5,5 +5,5 @@ export default metadata({
     description: '%d%.api_reference_intro',
     keywords: ['carats', 'api reference', 'types', 'carats/render', 'carats/ssr', 'carats/csr'],
     menuOrder: 11,
-    generateTOC: false
+    generateToc: true
 });

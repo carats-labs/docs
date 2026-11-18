@@ -22,7 +22,7 @@ export default defineConfig({
       exclude: [
         'src/client/entrypoint.ts',
         'src/server/entrypoint.ts',
-        'src/client/facets.cara.ts',
+        'src/client/facets.tsx',
         'src/infra/**/*',
         'src/dto/**/*',
         '**/*.d.ts',
@@ -74,7 +74,7 @@ test("Render profile page", () => {
 ```typescript
 // src/server/__tests__/trade-api.test.ts
 import { describe, expect, test } from "vitest";
-import getTradeData from "../culets/trade";
+import { getTradeData } from "../culets";
 
 describe("Trade API", () => {
     test("GET /trade/btc", async () => {

@@ -5,5 +5,5 @@ export default metadata({
     description: '%d%.error_desc',
     keywords: ['carats', 'error', '404', 'not found'],
     menuOrder: 99,
-    generateTOC: false
+    generateToc: true
 });

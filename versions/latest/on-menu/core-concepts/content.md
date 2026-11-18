@@ -57,10 +57,10 @@ export default defineFacets({
 ### %d%.defining_culet
 
 ```typescript
-// src/server/culets/profile.ts
+// src/server/culets.ts
 import { culet } from '@carats/ssr';
 
-export default culet<User>('/profile', (req) => {
+export const getProfile = culet<User>('/profile', (req) => {
     return {
         id: '1',
         name: 'John Doe',
@@ -73,10 +73,10 @@ export default culet<User>('/profile', (req) => {
 %d%.culet_dynamic_params_note
 
 ```typescript
-// src/server/culets/trade.ts
+// src/server/culets.ts
 import { culet } from '@carats/ssr';
 
-export default culet<TradeData>('/trade/:symbol', async (req) => {
+export const getTradeData = culet<TradeData>('/trade/:symbol', async (req) => {
     const symbol = req.params.symbol.toUpperCase();
     const quote = await fetchQuote(symbol);
     return { symbol, price: quote.price };
@@ -90,8 +90,8 @@ export default culet<TradeData>('/trade/:symbol', async (req) => {
 ```typescript
 // src/server/entrypoint.ts
 import { defineServerEntry, seat } from '@carats/ssr';
-import facets from '../client/facets.cara';
-import getTradeData from './culets/trade';
+import facets from '../client/facets';
+import { getTradeData } from './culets';
 
 seat(getTradeData);
 

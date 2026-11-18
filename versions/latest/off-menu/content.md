@@ -2,6 +2,28 @@
 
 %d%.intro_paragraph
 
+## %d%.home_start_title
+
+%d%.home_start_desc
+
+```tsx
+export default function Home() {
+    return <h1>Hello from Carats</h1>;
+}
+```
+
+1. [%d%.getting_started_title](%home_link%/getting-started)
+2. [%d%.core_concepts_title](%home_link%/core-concepts)
+3. [%d%.components_title](%home_link%/components)
+
+## %d%.home_model_title
+
+%d%.home_model_desc
+
+## %d%.home_all_pages_title
+
+%d%.home_all_pages_desc
+
 | %d%.home_sections_col | %d%.home_guide_col |
 |---|---|
 | %d%.getting_started_title | [%d%.read_more](%home_link%/getting-started) |

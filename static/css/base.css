@@ -64,7 +64,6 @@ h6 {
 
 ul,
 ol {
-  list-style: none;
   padding: 0; /* Ensure default padding is reset */
   margin: 0;
 }

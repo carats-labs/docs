@@ -5,5 +5,5 @@ export default metadata({
     description: '%d%.hooks_intro',
     keywords: ['carats', 'hooks', 'use', 'afterMount', 'beforeMount', 'state'],
     menuOrder: 5,
-    generateTOC: false
+    generateToc: true
 });

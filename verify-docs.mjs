@@ -10,6 +10,7 @@
  *      read from the installed .d.ts
  *   6. the documented folder layout matches the generated app
  *   7. no prose is hardcoded: every reader-visible string is a dictionary key
+ *   8. dictionary prose stays plain text: no literal backticks or inline HTML
  */
 import { readFileSync, readdirSync, statSync, existsSync } from 'fs';
 import { join, relative } from 'path';
@@ -86,9 +87,13 @@ for (const lang of LANGS.filter((l) => l !== DEFAULT_LANG)) {
     ? fail(`${lang}: ${problems.join(' | ')}`)
     : ok(`${lang}: complete, ${Object.keys(d).length} keys, none empty`);
   // identical strings are expected for proper nouns and package names
-  const suspicious = untranslated.filter((k) => !/^(language_name_|welcome_title$|.*_title$|.*_col$|api_\w+_title$|rm_row_\w+_react$|rm_row_\w+_carats$|jjsx_heading$|hooks_title$|culets_heading$|base_sass_title$)/.test(k));
+  const suspicious = untranslated.filter((k) => !/^(language_name_|welcome_title$|.*_title$|.*_col$|api_\w+_title$|rm_row_\w+_react$|rm_row_\w+_carats$|jjsx_heading$|hooks_title$|culets_heading$|base_sass_title$|.*_name$)/.test(k));
   suspicious.length && console.log(`  note  ${lang}: ${untranslated.length} value(s) equal to ${DEFAULT_LANG}, ${suspicious.length} of them not obviously a proper noun`);
 }
+
+const literalMarkdown = [...new Set(LANGS.flatMap((lang) => Object.entries(dictionaries[lang]).filter(([, v]) => typeof v === 'string' && (v.includes('`') || /<[A-Za-z/!]/.test(v))).map(([k]) => k)))].sort();
+literalMarkdown.length ? fail(`dictionary values must not contain literal backticks or inline HTML: ${literalMarkdown.join(', ')}`)
+                       : ok('no literal backticks or inline HTML in dictionary values');
 
 const dead = Object.keys(reference).filter((k) => !used.has(k) && !CONSUMED_ELSEWHERE.has(k)).sort();
 dead.length ? fail(`dead dictionary keys (used by nothing): ${dead.join(', ')}`)
@@ -108,10 +113,24 @@ for (const p of pages) {
 }
 if (!legacy) ok('no legacy API identifiers in any page');
 
+// ---- 3b. generated filenames
+const STALE = [['facets.cara', 'facets.tsx'], ['culets/', 'culets.ts']];
+let stale = 0;
+for (const p of pages) {
+  const src = readFileSync(p, 'utf8');
+  for (const [wrong, right] of STALE) {
+    if (src.includes(wrong)) {
+      fail(`${relative(DOCS, p)} mentions ${wrong}; the generated app ships ${right}`);
+      stale++;
+    }
+  }
+}
+if (!stale) ok('docs use the generated facets.tsx and culets.ts filenames');
+
 // ---- 4. published exports
 const EXPORTS = {
   hooks: ['afterMount', 'beforeMount', 'clearHydrations', 'use'],
-  render: ['defineFacets', 'Burnish', 'getPageComponent'],
+  render: ['defineFacets', 'Burnish', 'Status', 'getPageComponent'],
   ssr: ['defineServerEntry', 'culet', 'seat'],
   csr: ['mount', 'clientRender', 'goTo'],
   express: ['carats'],
@@ -151,17 +170,6 @@ if (existsSync(appSrc)) {
   undocumented.length
     ? console.log(`  note  generated files not shown in getting-started: ${undocumented.join(', ')}`)
     : ok('every generated source file appears in getting-started');
-
-  // filenames the docs get wrong, compared against the generated app
-  const STALE = {
-    'server/culets/': 'culets.ts',
-    'facets.cara.ts': 'facets.tsx',
-  };
-  for (const [wrong, right] of Object.entries(STALE)) {
-    gs.includes(wrong)
-      ? fail(`getting-started mentions ${wrong}; the generated app ships ${right}`)
-      : ok(`getting-started names ${right}`);
-  }
 
   // @carats/<pkg> mentioned by the docs must be a published package
   const published = new Set(readdirSync(APP).filter((d) => !statSync(join(APP, d)).isFile()));

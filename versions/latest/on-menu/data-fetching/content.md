@@ -7,10 +7,10 @@
 %d%.culet_lifecycle_desc
 
 ```typescript
-// src/server/culets/trade.ts
+// src/server/culets.ts
 import { culet } from '@carats/ssr';
 
-export default culet<TradeData>('/trade/:symbol', async (req) => {
+export const getTradeData = culet<TradeData>('/trade/:symbol', async (req) => {
     const symbol = req.params.symbol;
     if (!symbol) {
         throw new Error('Symbol is required');

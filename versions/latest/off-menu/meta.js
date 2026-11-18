@@ -5,5 +5,5 @@ export default metadata({
     description: '%d%.intro_paragraph',
     keywords: ['carats', 'framework', 'javascript', 'jjsx', 'ssr'],
     menuOrder: 0,
-    generateTOC: false
+    generateToc: true,
 });

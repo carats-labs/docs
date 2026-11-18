@@ -5,5 +5,5 @@ export default metadata({
     description: '%d%.static_generation_intro',
     keywords: ['carats', 'ssg', 'static generation', 'prerender', 'build'],
     menuOrder: 10,
-    generateTOC: false
+    generateToc: true
 });

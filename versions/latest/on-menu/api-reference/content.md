@@ -2,6 +2,8 @@
 
 %d%.api_reference_intro
 
+> %d%.api_reference_usage_note
+
 ## %d%.api_core_title
 
 ```typescript
@@ -23,6 +25,8 @@ interface CaratsComponent<T = any> extends JSX.FunctionComponent<T> {
     head?: JSX.Element;
     burnished?: boolean;
     recast?: boolean;
+    frame?: CaratsComponent;
+    status?: number;
 }
 type CaratsComponentWithThis<T = any> =
     ((this: CaratsComponent<T>, props: T) => JSX.Element) & CaratsComponent<T>;
@@ -30,9 +34,9 @@ interface Facets {
     inAppRouting?: boolean;
     routes: Record<string, CaratsComponent>;
     suspense: {
-        loading: () => JSX.Element;
-        error: (error: Error) => JSX.Element;
-        notFound: () => JSX.Element;
+        loading: CaratsComponent;
+        error: CaratsComponent<Error>;
+        notFound: CaratsComponent;
     };
 }
 interface PartialFacets {
@@ -52,6 +56,8 @@ declare function defineFacets(facets: PartialFacets): Facets;
 declare function getPageComponent(this: Facets, url: string): PageComponentResult;
 declare function Burnish<T = any>(component: CaratsComponentWithThis<T>, options?: BurnishOptions): CaratsComponentWithThis<T>;
 declare function Burnish<T = any>(component: CaratsComponent<T>, options?: BurnishOptions): CaratsComponent<T>;
+declare function Status<T = any>(status: number): (component: CaratsComponent<T>) => CaratsComponent<T>;
+declare function Status<T = any>(status: number): (component: CaratsComponentWithThis<T>) => CaratsComponentWithThis<T>;
 ```
 
 %d%.define_facets_note
@@ -119,6 +125,7 @@ interface CaratsServerEntry {
     render: (req: CaratsRequest<never>) => Promise<{
         html?: string;
         head?: string;
+        status?: number;
     }>;
     getServerProps: <T = any>(req: CaratsRequest<never>) => Promise<T> | T;
     facets: Facets;

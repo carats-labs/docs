@@ -5,5 +5,5 @@ export default metadata({
     description: '%d%.server_side_intro',
     keywords: ['carats', 'server-side', 'ssr', 'culets', 'express', 'seat'],
     menuOrder: 4,
-    generateTOC: false
+    generateToc: true
 });

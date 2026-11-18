@@ -7,7 +7,7 @@
 %d%.routes_desc
 
 ```typescript
-// src/client/facets.cara.ts
+// src/client/facets.tsx
 import { defineFacets } from '@carats/render';
 import ErrorPage from './pages/_error';
 import NotFound from './pages/_not_found';
@@ -64,7 +64,7 @@ export default Burnish<TradeData>(function (data) {
 ```typescript
 // src/client/entrypoint.ts
 import { mount, clientRender } from '@carats/csr';
-import facets from './facets.cara';
+import facets from './facets';
 
 mount(facets);
 clientRender();
@@ -111,10 +111,11 @@ export default function SearchInput() {
 
 ```tsx
 // src/client/pages/_not_found/index.tsx
+import { Status } from '@carats/render';
 import Layout from '../_layout';
 import './notfound.sass';
 
-export default function NotFound() {
+export default Status(404)(function NotFound() {
     return (
         <Layout>
             <section class="notfound-page container">
@@ -124,15 +125,16 @@ export default function NotFound() {
             </section>
         </Layout>
     );
-}
+});
 ```
 
 ```tsx
 // src/client/pages/_error/index.tsx
+import { Status } from '@carats/render';
 import Layout from '../_layout';
 import './error.sass';
 
-export default function ErrorPage(error: Error) {
+export default Status(500)(function ErrorPage(error: Error) {
     return (
         <Layout>
             <section class="error-page container">
@@ -142,7 +144,9 @@ export default function ErrorPage(error: Error) {
             </section>
         </Layout>
     );
-}
+});
 ```
 
 %d%.wrap_in_layout_note
+
+%d%.routing_status_note

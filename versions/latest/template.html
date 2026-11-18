@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="/static/css/carats.css" />
     <script type="text/javascript" src="/static/plugins/log-logo.js" ></script>
     <script type="text/javascript" src="/static/plugins/instajax.js" ></script>
+    <script type="text/javascript" src="/static/plugins/swipe-menu.js" ></script>
     <link rel="stylesheet" href="/static/css/hljs-tokyo-night-dark.min.css">
     <script>window.dictionary = %dictionary%;</script>
   </head>
@@ -29,15 +30,15 @@
           %logo%
           %nav%
         </header>
-        <a href="#menu" id="menuLink" aria-label="%d%.toggle_menu">
-          <span></span>
-        </a>
       </aside>
+      <a href="#menu" id="menuLink" aria-label="%d%.toggle_menu" draggable="false">
+        <span></span>
+      </a>
       <main>
         %header%
         <article>
           %search%
-          <div id="toc"></div>
+          <section id="table-of-contents">%generated_table_of_contents%</section>
           <div class="content">%content%</div>
         </article>
       </main>
