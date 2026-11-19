@@ -13,7 +13,7 @@
   "license": "",
   "dependencies": {
     "cheerio": "^1.0.0",
-    "instajax": "^1.7.1",
+    "instajax": "^2.1.0",
     "instant-docs": "^6.1.0"
   },
   "devDependencies": {

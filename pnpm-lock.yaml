@@ -12,8 +12,8 @@ importers:
         specifier: ^1.0.0
         version: 1.0.0
       instajax:
-        specifier: ^1.7.1
-        version: 1.7.1
+        specifier: ^2.1.0
+        version: 2.1.0
       instant-docs:
         specifier: ^6.1.0
         version: 6.1.0
@@ -517,8 +517,8 @@ packages:
   inherits@2.0.4:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
 
-  instajax@1.7.1:
-    resolution: {integrity: sha512-mhmqaTRH0l0E/sZZ5K6AJop89Fw4cSqrifd/7gBKxPCvc0O+pvsaKgwIPLnTf8YFJpuckyJIGaHo0y8/WKPo/g==}
+  instajax@2.1.0:
+    resolution: {integrity: sha512-oZK4/3kJKqzaugwg40babxJibpqzJVHYXfo22JpT5/qVYGcGtt1URugOQcnzeHwXP/84FrErjxCGZC9z8etkkg==}
 
   instant-docs@6.1.0:
     resolution: {integrity: sha512-lqbmNPUH++mU/3bjUkwha0RA2gbCBkIYlUqfE/pWgrnjqzu/o93NEsdSWaaSGR5pY+kXQyXQQ3qSk7VGH91tzg==}
@@ -1261,7 +1261,7 @@ snapshots:
 
   inherits@2.0.4: {}
 
-  instajax@1.7.1: {}
+  instajax@2.1.0: {}
 
   instant-docs@6.1.0:
     dependencies:
