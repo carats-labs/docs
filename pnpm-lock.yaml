@@ -15,8 +15,8 @@ importers:
         specifier: ^2.1.0
         version: 2.1.0
       instant-docs:
-        specifier: ^6.1.0
-        version: 6.1.0
+        specifier: ^6.1.1
+        version: 6.1.1
     devDependencies:
       nodemon:
         specifier: ^3.1.10
@@ -520,8 +520,8 @@ packages:
   instajax@2.1.0:
     resolution: {integrity: sha512-oZK4/3kJKqzaugwg40babxJibpqzJVHYXfo22JpT5/qVYGcGtt1URugOQcnzeHwXP/84FrErjxCGZC9z8etkkg==}
 
-  instant-docs@6.1.0:
-    resolution: {integrity: sha512-lqbmNPUH++mU/3bjUkwha0RA2gbCBkIYlUqfE/pWgrnjqzu/o93NEsdSWaaSGR5pY+kXQyXQQ3qSk7VGH91tzg==}
+  instant-docs@6.1.1:
+    resolution: {integrity: sha512-O56jB9M9aK7hHfY1F0UKbSKivXywo9Oh24KEo+utPFGfV0aKNg5z/WeU8nS8mw3I8LQhbSD5Sz0EanLjO2cJUQ==}
     hasBin: true
 
   ipaddr.js@1.9.1:
@@ -1263,7 +1263,7 @@ snapshots:
 
   instajax@2.1.0: {}
 
-  instant-docs@6.1.0:
+  instant-docs@6.1.1:
     dependencies:
       '@minify-html/node': 0.18.1
       axios: 1.9.0
